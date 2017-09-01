@@ -2,13 +2,12 @@
 #define _LOG_H
 
 #include "tlog.h"
+#include "tlog_mcast.h"
 
-
-#define RT_BOOT_TLOG(rt, fmt, args...) \
-	do { \
-		boot_tlog(rt,0,fmt, ##args); \
-		return rt; \
-	} while(0)
+#ifdef ALERT_LOG
+#undef ALERT_LOG
+#endif 
+#define ALERT_LOG(fmt, args...) FATAL_TLOG(fmt,##args)
 
 #ifdef BOOT_LOG
 #undef BOOT_LOG

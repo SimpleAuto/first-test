@@ -14,9 +14,51 @@
 static int has_init;
 static list_head_t ini_key_head[1 << INIKEY_HASHBITS];
 
+static inline struct list_head* config_key_hash(const char* key)
+{
+    return &ini_key_head[hash_r5(key) & ((1 << INIKEY_HASHBITS) - 1)];
+}
+
 static inline int hash_key(const char* key)
 {
 	return hash_r5(key) & ((1 << INIKEY_HASHBITS)-1);
+}
+
+static int  config_reset_or_add_value( const char *  k,  const char *  v)
+{
+	if(config_append_value(k, v) == -1) {
+		if(config_update_value(k, v) == -1) {
+			return -1;
+		}
+	}
+	return 0;
+}
+
+static int parse_config(char *buffer)
+{
+    static const char myifs[256] = { [' '] = 1,['\t'] = 1,['\r'] = 1,['\n'] = 1,['='] = 1};
+	char *filed[2];
+	char *start = buffer;
+	size_t len = strlen(buffer);
+	while(len + buffer > start)
+	{
+		char *end = strchr(start,'\n');
+		if(end)
+			*end = '\0';
+		if((*start!='#') && (str_split(myifs,start,filed,2) == 2))
+		{
+			if(config_reset_or_add_value(filed[0],filed[1]) == -1)
+				return -1;
+		}
+		if(end)
+		{
+			start = end+1;
+		}else{
+			break;
+		}
+		
+	}
+	return 0;
 }
 
 int config_append_value(const char* key,const char *val)
@@ -116,43 +158,6 @@ int str_split(const char *ifs,char *line,char *field[],int n)
 
 }
 
-static int  config_reset_or_add_value( const char *  k,  const char *  v)
-{
-	if(config_append_value(k, v) == -1) {
-		if(config_update_value(k, v) == -1) {
-			return -1;
-		}
-	}
-	return 0;
-}
-
-static int parse_config(char *buffer)
-{
-    static const char myifs[256] = { [' '] = 1,['\t'] = 1,['\r'] = 1,['\n'] = 1,['='] = 1};
-	char *filed[2];
-	char *start = buffer;
-	size_t len = strlen(buffer);
-	while(len + buffer > start)
-	{
-		char *end = strchr(start,'\n');
-		if(end)
-			*end = '\0';
-		if((*start!='#') && (str_split(myifs,start,filed,2) == 2))
-		{
-			if(config_reset_or_add_value(filed[0],filed[1]) == -1)
-				return -1;
-		}
-		if(end)
-		{
-			start = end+1;
-		}else{
-			break;
-		}
-		
-	}
-	return 0;
-}
-
 int mmap_config_file(const char *file_name,char **buf)
 {
 	int ret_code = -1;
@@ -192,4 +197,26 @@ int config_init(const char* file_name)
 	}
 
 	return ret_code;
+}
+
+int config_get_intval(const char*key,int def)
+{
+    char *val = config_get_strval(key);
+    if(val==0)
+        return def;
+
+    return atoi(val);
+}
+
+char* config_get_strval(const char* key)
+{
+    struct config_pair* mc;
+    list_head_t *hlist = config_key_hash(key);
+    list_for_each_entry(mc,hlist,list)
+    {
+        if(!strcmp(key,mc->key))
+            return mc->val;
+    }
+
+    return 0;
 }

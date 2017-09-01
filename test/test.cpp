@@ -7,8 +7,14 @@ using namespace std;
 #define BOOT_OK   "\e[1m\e[32m[ ok ]\e[m"
 #define BOOT_FAIL "\e[1m\e[31m[ failed ]\e[m"
 
+#define __builtin_prefetch(x,y,z) 1
+
 int main()
 {
+
+    cout << __builtin_prefetch(0,0,0) << endl;
+    cout << __builtin_prefetch(3,2,1) << endl;
+
     char tmp[10] = "hello";
     printf("%s",tmp);
 	cout << BOOT_OK << endl;
