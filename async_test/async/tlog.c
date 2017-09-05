@@ -1,34 +1,202 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <time.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <error.h>
-#include <unistd.h>
-#include <sys/utsname.h>
-#include <stdarg.h>
-#include <assert.h>
-#include <pthread.h>
-#include <sys/types.h>
-#include <sys/epoll.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <net/if.h>
-#include <sys/ioctl.h>
-#include <sys/stat.h>
-
 #include "tlog.h"
 #include "tlog_decl.h"
 #include "netutils.h"
+#include "fileutils.h"
 
 logger_ctrl_cfg_t logger_ctrl_cfg_struct, *ctrl_cfg = &logger_ctrl_cfg_struct;
 logger_svc_info_t logger_svc_info_struct, *svc_info = &logger_svc_info_struct;
 logger_udp_sink_t udp_sink_struct       , *udp_sink = &udp_sink_struct;
 logger_t          logger_struct         , *logger=&logger_struct;
+
+static int32_t self_thread_pid;
+
+/* 为创建新的 logfile 做准备 */
+void init_logfile(logfile_t *logfile)
+{
+    time_t now = logger->now;
+    struct tm *tm = &(logger->tm_now);
+
+    if(ctrl_cfg->time_slice_secs)
+        logfile->time_slice_seq = now / ctrl_cfg->time_slice_secs;
+
+    if(tlog_unlikely(logfile->tm_yday != tm->tm_yday))
+    {
+        logfile->daily_seq = 0;
+        logfile->tm_yday = tm->tm_yday;
+    }
+    /* baselen/basename/infostr/infostrlen 都不能清除 */
+    logfile->file_len = 0;
+    logfile->fd = -1;
+}
+
+/**
+ * @param logfile: 当前级别的log文件;
+ * @param tm: 用于产生log文件名的时间;
+ * @returns -1: failed, >=0: 合法的slice_no
+ */
+int get_time_slice_no(logfile_t *logfile,char *datedir,struct tm *tm)
+{
+    char filename[FILENAME_MAX];
+    int maxlen = sizeof(filename);
+
+    int no;
+    struct stat stbuf;
+    for(no=0;no != MAX_SLICE_NO;++no)
+    {
+        snprintf(filename,maxlen, "%s/%s-%02d%02d%02d-%04d",
+                datedir,
+                logfile->basename,
+                tm->tm_hour,tm->tm_min,tm->tm_sec,no);
+
+        if(stat(filename,&stbuf) == -1)
+        {
+            if(errno == ENOENT)
+                break;
+            return -1;
+        }
+
+        if(stbuf.st_size < (ctrl_cfg->max_one_size << 20))
+            break;
+    }
+    return no;
+}
+
+int gen_timestring(char *buf,int maxlen,logfile_t *log_file,char *datedir)
+{
+    time_t now = logger->now;
+    struct tm *tm = &(logger->tm_now);
+    struct tm tm_tmp;
+    int32_t slice_no = 0;
+
+    if(ctrl_cfg->time_slice_secs > 0)
+    {
+        time_t interval = ctrl_cfg->time_slice_secs;
+        time_t tmp = now / interval * interval;
+        localtime_r(&tmp,&tm_tmp);
+        tm = &tm_tmp;
+        slice_no = get_time_slice_no(log_file,datedir,&tm_tmp);
+    }
+
+    if(slice_no == -1)
+        return -1;
+
+    snprintf(buf,maxlen, "%02d%02d%02d-%04d",
+            tm->tm_hour,tm->tm_min,tm->tm_sec,slice_no);
+
+    return 0;
+}
+
+/**
+ * @brief 0: 成功, -1: 失败
+ */
+int create_new_logfile(logfile_t *logfile)
+{
+    int fd = -1;
+    char timestring[MAX_TIMESTR_LEN];
+    char filename[FILENAME_MAX];
+    char datedir[FILENAME_MAX];
+    struct tm *tm = &(logger->tm_now);
+
+    snprintf(datedir, sizeof(datedir), "%s/%04d%02d%02d", logger->logdir,
+            1900+tm->tm_year, 1+tm->tm_mon, tm->tm_mday);
+    if (tlog_mkdir_with_parents(datedir, 0755) == -1) {
+        fprintf(stderr, "ERROR: failed to mkdir: %s (%d): %s\n",
+                datedir, errno, strerror(errno));
+        return -1;
+    }
+    
+    /* 到此, 一定要切换文件, 于是先关闭之前的文件 (有的话) */
+    if (logfile->fd > 0) {
+        close(logfile->fd);
+    }
+    init_logfile(logfile);
+
+    /* 组织新文件名:
+     *  <basename>-<timestring>
+     * 其中:
+     *  basename: <prefix>-<severity>
+     *  timestring: <yyyymmdd>-<HHMMSS>-<slice_no>
+     *  infostr: 文件内容第一行: <svcname>-<svrtype>-<hostname> */
+
+    if (gen_timestring(timestring, sizeof(timestring), logfile, datedir) == -1) {
+        return -1;
+    }
+    snprintf(filename, sizeof(filename), "%s/%s-%s",
+            datedir, logfile->basename, timestring);
+
+    fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0664);
+    if (fd == -1) {
+        return -1;
+    }
+    fcntl(fd, F_SETFD, FD_CLOEXEC);
+
+    logfile->fd = fd;
+    /* 写文件头: yyyy-mm-dd HH:MM:SS\t"LOGHEAD"\tpid\tlogfile->infostr */
+    char loghead[TLOG_BUF_SIZE];
+    int headlen = snprintf(loghead, sizeof(loghead),
+            "%04d-%02d-%02d %02d:%02d:%02d\t%s\t%d\t%s\n",
+            tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday,
+            tm->tm_hour, tm->tm_min, tm->tm_sec,
+            LOGTYPE_HEAD, self_thread_pid, logfile->infostr);
+    write(logfile->fd, loghead, headlen);
+
+    logfile->daily_seq++;
+
+    return 0;
+}
+
+/**
+ * @brief is_need_shift_file:
+ * 判断某类(debug/trace/...)log文件是否需要切换;
+ * @returns 0: 不要切换文件, 1: 要切换文件;
+ */
+int is_need_shift_file(logfile_t *logfile)
+{
+    time_t now = logger->now;
+    struct tm *tm = &(logger->tm_now);
+    /* 根据 "每天最大文件数量" 判断要不要切换;
+     * 注意: 这里仅仅是对logfile这一类log文件作约束, 例如:
+     *  所有类型的log文件, 每天做多能产生多少文件;
+     */
+    if (ctrl_cfg->daily_max_files
+            && logfile->daily_seq >= ctrl_cfg->daily_max_files) {
+        return DONT_SHIFT;
+    }
+    /* 刚初始化 */
+    if (logfile->fd == -1) {
+        return DO_SHIFT;
+    }
+    /* 根据 "轮转条件" 判断要不要切换 */
+    if (ctrl_cfg->time_slice_secs) {
+        int32_t seq = now / ctrl_cfg->time_slice_secs;
+        if (tlog_unlikely(seq != logfile->time_slice_seq)) {
+            return DO_SHIFT;
+        }
+    }
+    /* 根据 "文件大小" 判断要不要切换 */
+    if (tlog_unlikely(ctrl_cfg->max_one_size
+                && (logfile->file_len >> 20) >= ctrl_cfg->max_one_size)) {
+        return DO_SHIFT;
+    }
+
+    /* 根据 "日期" 判断要不要切换 */
+    if (tlog_unlikely(logfile->tm_yday != tm->tm_yday)) {
+        return DO_SHIFT;
+    }
+
+    return DONT_SHIFT;
+}
+
+int shift_logger_file(logfile_t *logfile)
+{
+    /* 如果不需要切换文件, 就立刻返回 */
+    if (is_need_shift_file(logfile) == DONT_SHIFT) {
+        return 0;
+    }
+
+    /* 到此: 一定是要创建新文件, 且 logfile 已经初始化好了 */
+    return create_new_logfile(logfile);
+}
 
 void boot_tlog(int ok,int dummy,const char* fmt,...)
 {
@@ -71,7 +239,6 @@ void write_to_logger(int lvl,const char *logtype,uint32_t uid,uint32_t flag,cons
     time_t now = logger->now;
     localtime_r(&now,tm);
 
-    int ret;
     int hlen=9,mlen=0,tot_len=0;
     char logtype_buf[MAX_SVRTYPE_LEN];
     char buffer[TLOG_BUF_SIZE];
@@ -79,7 +246,8 @@ void write_to_logger(int lvl,const char *logtype,uint32_t uid,uint32_t flag,cons
     va_list ap;
     va_start(ap,fmt);
 
-    logfile_t *log_file = &(logger->logfile[lvl]);
+    int ret;
+    logfile_t *logfile = &(logger->logfile[lvl]);
 
     /* 构造一行log的格式：
      * yyyy-mm-dd HH:MM:SS\tLOG_TYPE\tUID\tmsg
@@ -122,7 +290,20 @@ void write_to_logger(int lvl,const char *logtype,uint32_t uid,uint32_t flag,cons
     // 写log
     if(tlog_likely(flag & logger_flag_file))
     { // 检查是否需要更换log文件
-        if(shift_)
+        if(shift_logger_file(logfile) < 0){
+            goto try_udp;
+        }
+
+        // 写入文件
+        errno = 0;
+        ret = write(logfile->fd,buffer,tot_len);
+        if(ret == -1 && errno == ENOSPC && ctrl_cfg->stop_if_diskfull)
+        {
+            logger->status = logger_status_stop;
+            goto try_udp;
+        }else{
+            logfile->file_len += tot_len;
+        }
     }
     
 try_udp:

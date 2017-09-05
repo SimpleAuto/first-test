@@ -3,3 +3,8 @@ hash_r.h   		hash算法
 list.h     		实现list
 log.h/c	   		日志封装
 tlog.h/c   		具体日志实现 
+tlog_decl.h     日志相关(宏定义)
+tlog_mcast.h    日志相关(部分函数实现)
+deamon.h/c      信号相关函数
+global.h        全局变量存放处
+netutils.h/c    通信函数

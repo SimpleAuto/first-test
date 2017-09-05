@@ -1,6 +1,29 @@
 #ifndef _TLOG_DECL_H_
 #define _TLOG_DECL_H_
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <time.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <error.h>
+#include <unistd.h>
+#include <sys/utsname.h>
+#include <stdarg.h>
+#include <assert.h>
+#include <pthread.h>
+#include <sys/types.h>
+#include <sys/epoll.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <net/if.h>
+#include <sys/ioctl.h>
+#include <sys/stat.h>
+
 #define tlog_likely(x) __builtin_expect(!!(x),1)
 #define tlog_unlikely(x) __builtin_expect(!!(x),0)
 
@@ -12,13 +35,30 @@
 #define MAX_SVC_NAME_LEN        (32)
 #define MAX_PROCNAME_LEN        (64)
 #define MAX_HOSTNAME_LEN        (64)
+#define MAX_TIMESTR_LEN        (64)
 #define MAX_BASENAME_LEN        (MAX_PROCNAME_LEN + 16) // procname + severity
 #define MAX_INFOSTR_LEN         (MAX_SVC_NAME_LEN + MAX_SVRTYPE_LEN + MAX_HOSTNAME_LEN)
+
+/*! 不能超过4个十进制位 */
+#define MAX_SLICE_NO            (9999)
 
 /*! 当遇到任何不能取到的值时(eg: 业务名), 就用这个宏的字符串替代 */
 #define NIL             "nil" 
 /*! 当磁盘满时, 间隔多久执行下一次检查, 单位: 秒 */
 #define CHECK_DISKFULL_DUR      (10)
+
+/*! 当初始化 udp_sink 失败时, 间隔多久执行下一次检查, 单位: 秒 */
+#define MIN_WAIT_UDP_SINK_TIME  (2)
+
+/*! 每行log的最大长度 (超过则在第8191个字节处被截断, 并把第8192个字节改成\n) */
+#define TLOG_BUF_SIZE           (8*1024)
+
+/*! 不要切换到新的logfile */
+#define DONT_SHIFT              (0)
+/*! 要切换到新的logfile */
+#define DO_SHIFT                (1)
+
+#define LOGTYPE_HEAD            "LOGHEAD"
 
 enum logger_status_t 
 {
@@ -150,7 +190,8 @@ typedef struct _logger_svc_info
     char                hostname[MAX_HOSTNAME_LEN]; // 实际是ip
 }logger_svc_info_t;
 
-typedef struct _trace_uid {
+typedef struct _trace_uid 
+{
     /*! 被追踪的 uid */
     uint32_t            uid;
     /*! 被追踪 uid 的trace持续到的时间 (超过了这个时间, 就自然取消跟踪) */

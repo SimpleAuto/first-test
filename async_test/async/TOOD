@@ -2,3 +2,6 @@
 2017/09/01
 目前进度 main.c daemon_start()  --->  deamon.c  rlimit_reset()   ---> log.h ALERT_LOG   ---> tlog_mcast.h  FATAL_TLOG   ---> tlog.c write_to_logger()
     ----> netutils.c sendlog_to_ubp_sink()
+
+2017/09/05
+目前进度 main.c daemon_start()  --->  deamon.c  rlimit_reset() 已完成ALERT_LOG调用函数

@@ -24,9 +24,9 @@ int daemon_start(int argc, char** argv)
 {
     // sigset_t 信号集及信号集操作函数：信号集被定义为一种数据类型
     // 与信号阻塞相关函数配合使用
-    struct sigaction sa;
-    sigset_t sset;
-    const char* style;
+    //struct sigaction sa;
+    //sigset_t sset;
+    //const char* style;
 
     rlimit_reset();
     return 0;
