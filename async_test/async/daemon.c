@@ -98,7 +98,6 @@ static inline void rlimit_reset()
     rlim.rlim_max = 1 << 30;
     if(setrlimit(RLIMIT_CORE, &rlim) == -1)
         ALERT_LOG("INIT CORE FILE RESOURCE FAILED");
-
 }
 
 int daemon_start(int argc, char** argv)
@@ -106,8 +105,8 @@ int daemon_start(int argc, char** argv)
     // sigset_t 信号集及信号集操作函数：信号集被定义为一种数据类型
     // 与信号阻塞相关函数配合使用
     struct sigaction sa;
-    //sigset_t sset;
-   // const char* style;
+    sigset_t sset;
+    //const char* style;
 
     rlimit_reset();
 
@@ -124,6 +123,17 @@ int daemon_start(int argc, char** argv)
 
     sa.sa_flags = SA_RESTART | SA_SIGINFO;
     sa.sa_sigaction = sigchld_handler;
+    sigaction(SIGCHLD,&sa,NULL);
+
+    // sigemptyset用来参数set信号集初始化并清空
+    sigemptyset(&sset);
+    sigaddset(&sset, SIGSEGV);
+    sigaddset(&sset, SIGBUS);
+    sigaddset(&sset, SIGABRT);
+    sigaddset(&sset, SIGILL);
+    sigaddset(&sset, SIGCHLD);
+    sigaddset(&sset, SIGFPE);
+    sigprocmask(SIG_UNBLOCK, &sset, &sset);
 
     return 0;
 }
