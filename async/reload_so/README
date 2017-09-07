@@ -1,0 +1,1 @@
+g++ -fpermissive -o reload_so reload_so.c -ltaomee -ldl

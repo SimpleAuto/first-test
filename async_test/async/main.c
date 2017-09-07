@@ -6,7 +6,7 @@
 #include "log.h"
 #include "config.h"
 #include "list.h"
-#include "deamon.h"
+#include "daemon.h"
 
 char g_progame_name[256];
 char *prog_name;

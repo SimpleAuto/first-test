@@ -2,6 +2,7 @@
 #include<cstdio>
 #include<cstdlib>
 #include<unistd.h>
+#include<math.h>
 using namespace std;
 
 #define BOOT_OK   "\e[1m\e[32m[ ok ]\e[m"
@@ -11,6 +12,8 @@ using namespace std;
 
 int main()
 {
+    cout << sin(1) << endl;
+    cout << (1<<30) << endl;
 
     cout << __builtin_prefetch(0,0,0) << endl;
     cout << __builtin_prefetch(3,2,1) << endl;
