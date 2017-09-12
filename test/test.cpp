@@ -12,18 +12,16 @@ using namespace std;
 
 int main()
 {
-    cout << sin(1) << endl;
-    cout << (1<<30) << endl;
+    cout << "test for math.h->sin:                     " << sin(1) << endl;
+    cout << "test for bit operation:                   " << (1<<30) << endl;
+    cout << "test for define __builtin_prefetch(x,x,x) " << __builtin_prefetch(0,0,0) << endl;
+    cout << "test for define __builtin_prefetch(x,y,z) " << __builtin_prefetch(3,2,1) << endl;
 
-    cout << __builtin_prefetch(0,0,0) << endl;
-    cout << __builtin_prefetch(3,2,1) << endl;
-
-    char tmp[10] = "hello";
-    printf("%s",tmp);
-	cout << BOOT_OK << endl;
-	cout << BOOT_FAIL << endl;
-	printf("%s %s\n",__DATE__,__TIME__);
+	cout << "test for define BOOT_OK:                  " << BOOT_OK << endl;
+	cout << "test for define BOOT_FAIL:                " << BOOT_FAIL << endl;
+    cout << "test for define __DATE__:                 " << __DATE__ << endl;
+    cout << "test for define __TIME__:                 " << __TIME__ << endl;
 	char *cur = get_current_dir_name();
-	cout<< cur << endl; 
+	cout<< "cout current dir name:                     " << cur << endl; 
 	return 0;
 }

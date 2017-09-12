@@ -20,42 +20,44 @@ DIR_SEPARATOR	fileutils.h	44;"	d
 DONT_SHIFT	tlog_decl.h	57;"	d
 DO_SHIFT	tlog_decl.h	59;"	d
 FATAL_TLOG	tlog_mcast.h	13;"	d
-FILE_ERROR_ACCES	fileutils.h	/^    FILE_ERROR_ACCES,$/;"	e	enum:__anon1
-FILE_ERROR_AGAIN	fileutils.h	/^    FILE_ERROR_AGAIN,$/;"	e	enum:__anon1
-FILE_ERROR_BADF	fileutils.h	/^    FILE_ERROR_BADF,$/;"	e	enum:__anon1
-FILE_ERROR_EXIST	fileutils.h	/^    FILE_ERROR_EXIST,$/;"	e	enum:__anon1
-FILE_ERROR_FAILED	fileutils.h	/^    FILE_ERROR_FAILED$/;"	e	enum:__anon1
-FILE_ERROR_FAULT	fileutils.h	/^    FILE_ERROR_FAULT,$/;"	e	enum:__anon1
-FILE_ERROR_INTR	fileutils.h	/^    FILE_ERROR_INTR,$/;"	e	enum:__anon1
-FILE_ERROR_INVAL	fileutils.h	/^    FILE_ERROR_INVAL,$/;"	e	enum:__anon1
-FILE_ERROR_IO	fileutils.h	/^    FILE_ERROR_IO,$/;"	e	enum:__anon1
-FILE_ERROR_ISDIR	fileutils.h	/^    FILE_ERROR_ISDIR,$/;"	e	enum:__anon1
-FILE_ERROR_LOOP	fileutils.h	/^    FILE_ERROR_LOOP,$/;"	e	enum:__anon1
-FILE_ERROR_MFILE	fileutils.h	/^    FILE_ERROR_MFILE,$/;"	e	enum:__anon1
-FILE_ERROR_NAMETOOLONG	fileutils.h	/^    FILE_ERROR_NAMETOOLONG,$/;"	e	enum:__anon1
-FILE_ERROR_NFILE	fileutils.h	/^    FILE_ERROR_NFILE,$/;"	e	enum:__anon1
-FILE_ERROR_NODEV	fileutils.h	/^    FILE_ERROR_NODEV,$/;"	e	enum:__anon1
-FILE_ERROR_NOENT	fileutils.h	/^    FILE_ERROR_NOENT,$/;"	e	enum:__anon1
-FILE_ERROR_NOMEM	fileutils.h	/^    FILE_ERROR_NOMEM,$/;"	e	enum:__anon1
-FILE_ERROR_NOSPC	fileutils.h	/^    FILE_ERROR_NOSPC,$/;"	e	enum:__anon1
-FILE_ERROR_NOSYS	fileutils.h	/^    FILE_ERROR_NOSYS,$/;"	e	enum:__anon1
-FILE_ERROR_NOTDIR	fileutils.h	/^    FILE_ERROR_NOTDIR,$/;"	e	enum:__anon1
-FILE_ERROR_NXIO	fileutils.h	/^    FILE_ERROR_NXIO,$/;"	e	enum:__anon1
-FILE_ERROR_PERM	fileutils.h	/^    FILE_ERROR_PERM,$/;"	e	enum:__anon1
-FILE_ERROR_PIPE	fileutils.h	/^    FILE_ERROR_PIPE,$/;"	e	enum:__anon1
-FILE_ERROR_ROFS	fileutils.h	/^    FILE_ERROR_ROFS,$/;"	e	enum:__anon1
-FILE_ERROR_TXTBSY	fileutils.h	/^    FILE_ERROR_TXTBSY,$/;"	e	enum:__anon1
-FILE_TEST_EXISTS	fileutils.h	/^    FILE_TEST_EXISTS        = 1 << 4$/;"	e	enum:__anon2
-FILE_TEST_IS_DIR	fileutils.h	/^    FILE_TEST_IS_DIR        = 1 << 2,$/;"	e	enum:__anon2
-FILE_TEST_IS_EXECUTABLE	fileutils.h	/^    FILE_TEST_IS_EXECUTABLE = 1 << 3,$/;"	e	enum:__anon2
-FILE_TEST_IS_REGULAR	fileutils.h	/^    FILE_TEST_IS_REGULAR    = 1 << 0,$/;"	e	enum:__anon2
-FILE_TEST_IS_SYMLINK	fileutils.h	/^    FILE_TEST_IS_SYMLINK    = 1 << 1,$/;"	e	enum:__anon2
+FILE_ERROR_ACCES	fileutils.h	/^    FILE_ERROR_ACCES,$/;"	e	enum:__anon3
+FILE_ERROR_AGAIN	fileutils.h	/^    FILE_ERROR_AGAIN,$/;"	e	enum:__anon3
+FILE_ERROR_BADF	fileutils.h	/^    FILE_ERROR_BADF,$/;"	e	enum:__anon3
+FILE_ERROR_EXIST	fileutils.h	/^    FILE_ERROR_EXIST,$/;"	e	enum:__anon3
+FILE_ERROR_FAILED	fileutils.h	/^    FILE_ERROR_FAILED$/;"	e	enum:__anon3
+FILE_ERROR_FAULT	fileutils.h	/^    FILE_ERROR_FAULT,$/;"	e	enum:__anon3
+FILE_ERROR_INTR	fileutils.h	/^    FILE_ERROR_INTR,$/;"	e	enum:__anon3
+FILE_ERROR_INVAL	fileutils.h	/^    FILE_ERROR_INVAL,$/;"	e	enum:__anon3
+FILE_ERROR_IO	fileutils.h	/^    FILE_ERROR_IO,$/;"	e	enum:__anon3
+FILE_ERROR_ISDIR	fileutils.h	/^    FILE_ERROR_ISDIR,$/;"	e	enum:__anon3
+FILE_ERROR_LOOP	fileutils.h	/^    FILE_ERROR_LOOP,$/;"	e	enum:__anon3
+FILE_ERROR_MFILE	fileutils.h	/^    FILE_ERROR_MFILE,$/;"	e	enum:__anon3
+FILE_ERROR_NAMETOOLONG	fileutils.h	/^    FILE_ERROR_NAMETOOLONG,$/;"	e	enum:__anon3
+FILE_ERROR_NFILE	fileutils.h	/^    FILE_ERROR_NFILE,$/;"	e	enum:__anon3
+FILE_ERROR_NODEV	fileutils.h	/^    FILE_ERROR_NODEV,$/;"	e	enum:__anon3
+FILE_ERROR_NOENT	fileutils.h	/^    FILE_ERROR_NOENT,$/;"	e	enum:__anon3
+FILE_ERROR_NOMEM	fileutils.h	/^    FILE_ERROR_NOMEM,$/;"	e	enum:__anon3
+FILE_ERROR_NOSPC	fileutils.h	/^    FILE_ERROR_NOSPC,$/;"	e	enum:__anon3
+FILE_ERROR_NOSYS	fileutils.h	/^    FILE_ERROR_NOSYS,$/;"	e	enum:__anon3
+FILE_ERROR_NOTDIR	fileutils.h	/^    FILE_ERROR_NOTDIR,$/;"	e	enum:__anon3
+FILE_ERROR_NXIO	fileutils.h	/^    FILE_ERROR_NXIO,$/;"	e	enum:__anon3
+FILE_ERROR_PERM	fileutils.h	/^    FILE_ERROR_PERM,$/;"	e	enum:__anon3
+FILE_ERROR_PIPE	fileutils.h	/^    FILE_ERROR_PIPE,$/;"	e	enum:__anon3
+FILE_ERROR_ROFS	fileutils.h	/^    FILE_ERROR_ROFS,$/;"	e	enum:__anon3
+FILE_ERROR_TXTBSY	fileutils.h	/^    FILE_ERROR_TXTBSY,$/;"	e	enum:__anon3
+FILE_TEST_EXISTS	fileutils.h	/^    FILE_TEST_EXISTS        = 1 << 4$/;"	e	enum:__anon4
+FILE_TEST_IS_DIR	fileutils.h	/^    FILE_TEST_IS_DIR        = 1 << 2,$/;"	e	enum:__anon4
+FILE_TEST_IS_EXECUTABLE	fileutils.h	/^    FILE_TEST_IS_EXECUTABLE = 1 << 3,$/;"	e	enum:__anon4
+FILE_TEST_IS_REGULAR	fileutils.h	/^    FILE_TEST_IS_REGULAR    = 1 << 0,$/;"	e	enum:__anon4
+FILE_TEST_IS_SYMLINK	fileutils.h	/^    FILE_TEST_IS_SYMLINK    = 1 << 1,$/;"	e	enum:__anon4
 HEADERS	Makefile	/^HEADERS = $(wildcard $(INCLUDEDIR)\/*.h)$/;"	m
 INCLUDEDIR	Makefile	/^INCLUDEDIR = $(WORKDIR)\/async$/;"	m
 INIKEY_HASHBITS	config.c	11;"	d	file:
 INIT_LIST_HEAD	list.h	15;"	d
 IS_DIR_SEPARATOR	fileutils.h	45;"	d
 LIBDIR	Makefile	/^LIBDIR = $(WORKDIR)\/libserver$/;"	m
+LIBTAOMEE_ARCH_I386_ATOMIC_	atomic.h	15;"	d
+LOCK	atomic.h	17;"	d
 LOGTYPE_HEAD	tlog_decl.h	61;"	d
 MAX_BASENAME_LEN	tlog_decl.h	39;"	d
 MAX_HOSTNAME_LEN	tlog_decl.h	37;"	d
@@ -75,22 +77,25 @@ RT_BOOT_TLOG	tlog_mcast.h	7;"	d
 SCREEN_COLS	tlog.c	203;"	d	file:
 SRCDIR	Makefile	/^SRCDIR = $(WORKDIR)\/async$/;"	m
 SRCS	Makefile	/^SRCS    = $(wildcard $(SRCDIR)\/*.c)$/;"	m
-TARGET	Makefile	/^TARGET = $(WORKDIR)\/async\/async$/;"	m
-TFileError	fileutils.h	/^}TFileError;$/;"	t	typeref:enum:__anon1
-TFileTest	fileutils.h	/^}TFileTest;$/;"	t	typeref:enum:__anon2
+TARGET	Makefile	/^TARGET = $(WORKDIR)\/async\/AsyncServer$/;"	m
+TFileError	fileutils.h	/^}TFileError;$/;"	t	typeref:enum:__anon3
+TFileTest	fileutils.h	/^}TFileTest;$/;"	t	typeref:enum:__anon4
 TLOG_BUF_SIZE	tlog_decl.h	54;"	d
 WORKDIR	Makefile	/^WORKDIR=..\/$/;"	m
+_BINDCONF_H_	bindconf.h	2;"	d
 _CONFIG_H_	config.h	2;"	d
-_DEAMON_H_	deamon.h	2;"	d
+_DEAMON_H_	daemon.h	2;"	d
 _FILEUTILS_H_	fileutils.h	2;"	d
 _GLOBAL_H_	global.h	2;"	d
 _HASH_R_H	hash_r.h	2;"	d
 _LIST_H_	list.h	2;"	d
 _LOG_H	log.h	2;"	d
 _NETUTILS_H_	netutils.h	2;"	d
+_SHMQ_H_	shmq.h	2;"	d
 _TLOG_DECL_H_	tlog_decl.h	2;"	d
 _TLOG_H	tlog.h	2;"	d
 _TLOG_MCAST_H_	tlog_mcast.h	2;"	d
+_TYPES_H_	types.h	2;"	d
 __builtin_prefetch	list.h	9;"	d
 __list_add	list.h	/^static inline void __list_add(struct list_head* new_entry,struct list_head* prev,struct list_head* next)$/;"	f
 _logfile_info	tlog_decl.h	/^typedef struct _logfile_info$/;"	s
@@ -100,11 +105,41 @@ _logger_svc_info	tlog_decl.h	/^typedef struct _logger_svc_info $/;"	s
 _logger_udp_sink	tlog_decl.h	/^typedef struct _logger_udp_sink $/;"	s
 _rate_limit	tlog_decl.h	/^typedef struct _rate_limit $/;"	s
 _trace_uid	tlog_decl.h	/^typedef struct _trace_uid $/;"	s
+addr	shmq.h	/^    shm_head_t *addr;$/;"	m	struct:shm_queue
 addr_changed	tlog_decl.h	/^    int                 addr_changed;$/;"	m	struct:_logger_udp_sink
+arg_end	daemon.c	/^static char*    arg_end;$/;"	v	file:
+arg_start	daemon.c	/^static char*    arg_start;$/;"	v	file:
+atomic_add	atomic.h	/^atomic_add (int i, atomic_t * v)$/;"	f
+atomic_add_negative	atomic.h	/^atomic_add_negative (int i, atomic_t * v)$/;"	f
+atomic_add_return	atomic.h	/^atomic_add_return (int i, atomic_t * v)$/;"	f
+atomic_clear_mask	atomic.h	208;"	d
+atomic_dec	atomic.h	/^atomic_dec (atomic_t * v)$/;"	f
+atomic_dec_and_test	atomic.h	/^atomic_dec_and_test (atomic_t * v)$/;"	f
+atomic_dec_return	atomic.h	205;"	d
+atomic_inc	atomic.h	/^atomic_inc (atomic_t * v)$/;"	f
+atomic_inc_and_test	atomic.h	/^atomic_inc_and_test (atomic_t * v)$/;"	f
+atomic_inc_return	atomic.h	200;"	d
+atomic_read	atomic.h	33;"	d
+atomic_set	atomic.h	40;"	d
+atomic_set_mask	atomic.h	212;"	d
+atomic_sub	atomic.h	/^atomic_sub (int i, atomic_t * v)$/;"	f
+atomic_sub_and_test	atomic.h	/^atomic_sub_and_test (int i, atomic_t * v)$/;"	f
+atomic_sub_return	atomic.h	/^atomic_sub_return (int i, atomic_t * v)$/;"	f
+atomic_t	atomic.h	/^} atomic_t;$/;"	t	typeref:struct:__anon1
 baselen	tlog_decl.h	/^    int                 baselen;$/;"	m	struct:_logfile_info
 basename	tlog_decl.h	/^    char                basename[MAX_BASENAME_LEN];$/;"	m	struct:_logfile_info
+bind_config	bindconf.h	/^typedef struct bind_config {$/;"	s
+bind_config_elem	bindconf.h	/^typedef struct bind_config_elem {$/;"	s
+bind_config_elem_t	bindconf.h	/^}bind_config_elem_t;$/;"	t	typeref:struct:bind_config_elem
+bind_config_t	bindconf.h	/^}bind_config_t;$/;"	t	typeref:struct:bind_config
+bind_ip	bindconf.h	/^    char        bind_ip[16];$/;"	m	struct:bind_config_elem
+bind_num	bindconf.h	/^    int                 bind_num;$/;"	m	struct:bind_config
+bind_port	bindconf.h	/^    in_port_t   bind_port;$/;"	m	struct:bind_config_elem
+bindconf	bindconf.c	/^bind_config_t bindconf;$/;"	v
+blk_cnt	shmq.h	/^    atomic_t blk_cnt;$/;"	m	struct:shm_head
 boot_tlog	tlog.c	/^void boot_tlog(int ok,int dummy,const char* fmt,...)$/;"	f
 chg_limit	tlog_decl.h	/^    int32_t             chg_limit;$/;"	m	struct:_rate_limit
+child_pids	daemon.c	/^atomic_t child_pids[max_listen_fds];$/;"	v
 config_append_value	config.c	/^int config_append_value(const char* key,const char *val)$/;"	f
 config_get_intval	config.c	/^int config_get_intval(const char*key,int def)$/;"	f
 config_get_strval	config.c	/^char* config_get_strval(const char* key)$/;"	f
@@ -114,13 +149,17 @@ config_pair	config.h	/^typedef struct config_pair{$/;"	s
 config_pair_t	config.h	/^}config_pair_t;$/;"	t	typeref:struct:config_pair
 config_reset_or_add_value	config.c	/^static int  config_reset_or_add_value( const char *  k,  const char *  v)$/;"	f	file:
 config_update_value	config.c	/^int config_update_value(const char* key,const char* val)$/;"	f
+configs	bindconf.h	/^    bind_config_elem_t  configs[max_listen_fds];$/;"	m	struct:bind_config
+counter	atomic.h	/^  volatile int counter;$/;"	m	struct:__anon1
 create_new_logfile	tlog.c	/^int create_new_logfile(logfile_t *logfile)$/;"	f
 ctrl_cfg	tlog.c	/^logger_ctrl_cfg_t logger_ctrl_cfg_struct, *ctrl_cfg = &logger_ctrl_cfg_struct;$/;"	v
 current_dir	main.c	/^char *current_dir;$/;"	v
-daemon_start	deamon.c	/^int daemon_start(int argc, char** argv)$/;"	f
+daemon_start	daemon.c	/^int daemon_start(int argc, char** argv)$/;"	f
 daily_max_files	tlog_decl.h	/^    int32_t             daily_max_files;$/;"	m	struct:_logger_ctrl_cfg
 daily_seq	tlog_decl.h	/^    int32_t             daily_seq;$/;"	m	struct:_logfile_info
 do_send_overflow	netutils.c	/^void do_send_overflow(void)$/;"	f
+dup_argv	daemon.c	/^static inline void dup_argv(int argc,char **argv)$/;"	f	file:
+env_start	daemon.c	/^static char*    env_start;$/;"	v	file:
 expire_time	tlog_decl.h	/^    int32_t             expire_time;$/;"	m	struct:_trace_uid
 fd	tlog_decl.h	/^    int                 fd;$/;"	m	struct:_logfile_info
 file_len	tlog_decl.h	/^    int64_t             file_len;$/;"	m	struct:_logfile_info
@@ -131,6 +170,7 @@ get_time_slice_no	tlog.c	/^int get_time_slice_no(logfile_t *logfile,char *datedi
 has_init	config.c	/^static int has_init;$/;"	v	file:
 hash_key	config.c	/^static inline int hash_key(const char* key)$/;"	f	file:
 hash_r5	hash_r.h	/^static inline uint32_t hash_r5(const char* p)$/;"	f
+head	shmq.h	/^    volatile int head;$/;"	m	struct:shm_head
 hostname	tlog_decl.h	/^    char                hostname[MAX_HOSTNAME_LEN]; \/\/ 实际是ip$/;"	m	struct:_logger_svc_info
 infostr	tlog_decl.h	/^    char                infostr[MAX_INFOSTR_LEN];$/;"	m	struct:_logfile_info
 infostrlen	tlog_decl.h	/^    int                 infostrlen;$/;"	m	struct:_logfile_info
@@ -144,6 +184,7 @@ is_need_shift_file	tlog.c	/^int is_need_shift_file(logfile_t *logfile)$/;"	f
 key	config.h	/^	char key[];$/;"	m	struct:config_pair
 last_check_diskfull_time	tlog_decl.h	/^	time_t				last_check_diskfull_time;$/;"	m	struct:_logger
 last_rate_time	tlog_decl.h	/^    time_t              last_rate_time;$/;"	m	struct:_rate_limit
+length	shmq.h	/^    unsigned int length;$/;"	m	struct:shm_queue
 limit	tlog_decl.h	/^    int32_t             limit;$/;"	m	struct:_rate_limit
 list	config.h	/^	struct list_head list;$/;"	m	struct:config_pair	typeref:struct:config_pair::list_head
 list_add	list.h	/^static inline void list_add(struct list_head* new_entry,struct list_head* head)$/;"	f
@@ -172,14 +213,18 @@ logger_svc_info_t	tlog_decl.h	/^}logger_svc_info_t;$/;"	t	typeref:struct:_logger
 logger_t	tlog_decl.h	/^} logger_t;$/;"	t	typeref:struct:_logger
 logger_udp_sink_t	tlog_decl.h	/^}logger_udp_sink_t;$/;"	t	typeref:struct:_logger_udp_sink
 main	main.c	/^int main(int argc,char *argv[])$/;"	f
-max_fd_num	deamon.c	/^int max_fd_num;$/;"	v
+max_fd_num	daemon.c	/^int max_fd_num;$/;"	v
+max_listen_fds	bindconf.h	/^    max_listen_fds  = 500 $/;"	e	enum:__anon2
 max_one_size	tlog_decl.h	/^    size_t              max_one_size;$/;"	m	struct:_logger_ctrl_cfg
 mmap_config_file	config.c	/^int mmap_config_file(const char *file_name,char **buf)$/;"	f
 my_lvl	tlog_decl.h	/^    tlog_lvl_t          my_lvl;$/;"	m	struct:_logfile_info
 next	list.h	/^	struct list_head *next,*prev;$/;"	m	struct:list_head	typeref:struct:list_head::list_head
 now	tlog_decl.h	/^	time_t				now;$/;"	m	struct:_logger
+online_id	bindconf.h	/^    uint32_t    online_id;$/;"	m	struct:bind_config_elem
+online_name	bindconf.h	/^    char        online_name[16];$/;"	m	struct:bind_config_elem
 parse_args	main.c	/^static inline void parse_args(int argc,char **argv)$/;"	f	file:
 parse_config	config.c	/^static int parse_config(char *buffer)$/;"	f	file:
+pipe_handles	shmq.h	/^    int pipe_handles[2];$/;"	m	struct:shm_queue
 port	tlog_decl.h	/^    uint16_t            port;$/;"	m	struct:_logger_udp_sink
 prefix	tlog_decl.h	/^	char				prefix[MAX_PREFIX_LEN];$/;"	m	struct:_logger
 prev	list.h	/^	struct list_head *next,*prev;$/;"	m	struct:list_head	typeref:struct:list_head::
@@ -188,20 +233,37 @@ prog_name	main.c	/^char *prog_name;$/;"	v
 rate_limit	tlog_decl.h	/^    rate_limit_t        rate_limit;$/;"	m	struct:_logger_udp_sink
 rate_limit_t	tlog_decl.h	/^}rate_limit_t;$/;"	t	typeref:struct:_rate_limit
 recvbuf	tlog_decl.h	/^    char                recvbuf[8192];$/;"	m	struct:_logger_udp_sink
-rlimit_reset	deamon.c	/^static inline void rlimit_reset()$/;"	f	file:
+recvq	bindconf.h	/^    shm_queue_t recvq;$/;"	m	struct:bind_config_elem
+restart	daemon.c	/^volatile int restart     = 0;$/;"	v
+restart_cnt	bindconf.h	/^    uint8_t     restart_cnt;$/;"	m	struct:bind_config_elem
+rlimit_reset	daemon.c	/^static inline void rlimit_reset()$/;"	f	file:
+saved_argv	daemon.c	/^char** saved_argv = NULL;$/;"	v
 self_thread_pid	tlog.c	/^static int32_t self_thread_pid;$/;"	v	file:
 sendbuf	tlog_decl.h	/^    char                sendbuf[8192];$/;"	m	struct:_logger_udp_sink
 sendfd	tlog_decl.h	/^    int                 sendfd;$/;"	m	struct:_logger_udp_sink
 sendlog_to_ubp_sink	netutils.c	/^void sendlog_to_ubp_sink(const char* buffer,int len)$/;"	f
+sendq	bindconf.h	/^    shm_queue_t sendq;$/;"	m	struct:bind_config_elem
 shift_logger_file	tlog.c	/^int shift_logger_file(logfile_t *logfile)$/;"	f
+shm_head	shmq.h	/^typedef struct shm_head$/;"	s
+shm_head_t	shmq.h	/^} __attribute__ ((packed)) shm_head_t;$/;"	t	typeref:struct:shm_head
+shm_queue	shmq.h	/^typedef struct shm_queue$/;"	s
+shm_queue_t	shmq.h	/^} shm_queue_t;$/;"	t	typeref:struct:shm_queue
 show_banner	main.c	/^static inline void show_banner()$/;"	f	file:
 show_usage	main.c	/^static inline void show_usage()$/;"	f	file:
+sigchld_handler	daemon.c	/^static void sigchld_handler(int signo, siginfo_t *si, void *p)$/;"	f	file:
+signame	daemon.c	/^const char * const signame[] = $/;"	v
+signup_handler	daemon.c	/^static void signup_handler(int signo)$/;"	f	file:
+sigterm_handler	daemon.c	/^static void sigterm_handler(int signo)$/;"	f	file:
+status	daemon.c	/^static int      status;$/;"	v	file:
 status	tlog_decl.h	/^	uint32_t			status;$/;"	m	struct:_logger
+stop	daemon.c	/^volatile int stop        = 0;$/;"	v
 stop_if_diskfull	tlog_decl.h	/^    int                 stop_if_diskfull;$/;"	m	struct:_logger_ctrl_cfg
 str_split	config.c	/^int str_split(const char *ifs,char *line,char *field[],int n)$/;"	f
 svc_info	tlog.c	/^logger_svc_info_t logger_svc_info_struct, *svc_info = &logger_svc_info_struct;$/;"	v
 svcname	tlog_decl.h	/^    char                svcname[MAX_SVC_NAME_LEN];$/;"	m	struct:_logger_svc_info
 svrtype	tlog_decl.h	/^    char                svrtype[MAX_SVRTYPE_LEN];$/;"	m	struct:_logger_svc_info
+tail	shmq.h	/^    volatile int tail;$/;"	m	struct:shm_head
+term_signal	daemon.c	/^volatile int term_signal = 0;$/;"	v
 thread	tlog_decl.h	/^	pthread_t			thread;$/;"	m	struct:_logger
 time_slice_no	tlog_decl.h	/^    int32_t             time_slice_no;$/;"	m	struct:_logfile_info
 time_slice_secs	tlog_decl.h	/^    int32_t             time_slice_secs;$/;"	m	struct:_logger_ctrl_cfg
@@ -235,6 +297,7 @@ udp_sink_struct	tlog.c	/^logger_udp_sink_t udp_sink_struct       , *udp_sink = &
 uid	tlog_decl.h	/^    uint32_t            uid;$/;"	m	struct:_trace_uid
 update_udp_sink_sockaddr	netutils.c	/^int update_udp_sink_sockaddr(void)$/;"	f
 use_net_ctrl	tlog_decl.h	/^	uint8_t				use_net_ctrl;$/;"	m	struct:_logger
+userid_t	types.h	/^    typedef uint32_t userid_t;$/;"	t
 val	config.h	/^	char *val;$/;"	m	struct:config_pair
 version	main.c	/^static const char version[] = "1.6.4.1";$/;"	v	file:
 write_to_logger	tlog.c	/^void write_to_logger(int lvl,const char *logtype,uint32_t uid,uint32_t flag,const char* fmt,...)$/;"	f

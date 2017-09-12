@@ -27,13 +27,14 @@ volatile int restart     = 0;
 volatile int term_signal = 0;
 
 char** saved_argv = NULL;
-//static char*    arg_start;
-//static char*    arg_end;
-//static char*    env_start;
-//static int      backgd_mode = 0;
+static char*    arg_start;
+static char*    arg_end;
+static char*    env_start;
+static int      backgd_mode = 0;
 static int      status;
 
-const char * const signame[] = {
+const char * const signame[] = 
+{
     "SIG_0",
     "SIGHUP",   "SIGINT",   "SIGQUIT",  "SIGILL",
     "SIGTRAP",  "SIGABRT",  "SIGBUS",   "SIGFPE",
@@ -84,6 +85,18 @@ static void sigchld_handler(int signo, siginfo_t *si, void *p)
     }
 }
 
+static inline void dup_argv(int argc,char **argv)
+{
+    saved_argv = malloc(sizeof(char*) * (argc+1));
+    if(!saved_argv)
+        return;
+    saved_argv[argc] = NULL;
+    while(--argv >= 0)
+    {
+        saved_argv[argc] = strdup(argv[argc]);;
+    }
+}
+
 static inline void rlimit_reset()
 {
     struct rlimit rlim;
@@ -106,7 +119,7 @@ int daemon_start(int argc, char** argv)
     // 与信号阻塞相关函数配合使用
     struct sigaction sa;
     sigset_t sset;
-    //const char* style;
+    const char* style;
 
     rlimit_reset();
 
@@ -135,5 +148,17 @@ int daemon_start(int argc, char** argv)
     sigaddset(&sset, SIGFPE);
     sigprocmask(SIG_UNBLOCK, &sset, &sset);
 
+    arg_start = argv[0];
+    arg_end   = argv[argc-1] + strlen(argv[argc-1]) +1;
+    env_start = environ[0];
+    dup_argv(argc,argv);
+
+    style = config_get_strval("run_mode");
+    if(!style || !strcasecmp("background",style))
+    {
+        daemon(1,1);
+        backgd_mode = 1;
+        BOOT_LOG(0,"switch to daemon mode");
+    }
     return 0;
 }

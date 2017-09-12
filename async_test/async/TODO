@@ -1,0 +1,10 @@
+
+2017/09/01
+目前进度 main.c daemon_start()  --->  deamon.c  rlimit_reset()   ---> log.h ALERT_LOG   ---> tlog_mcast.h  FATAL_TLOG   ---> tlog.c write_to_logger()
+    ----> netutils.c sendlog_to_ubp_sink()
+
+2017/09/05
+目前进度 main.c daemon_start()  --->  deamon.c  rlimit_reset() 已完成ALERT_LOG调用函数
+
+2017/09/07 (对0906的工作进行整理说明)
+保证了现有代码是可以编译成功的，并且成功的编译了库文件以及示例文件，接下来，就是源码剖析，理解设计思路，加油
