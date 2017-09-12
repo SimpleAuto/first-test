@@ -7,6 +7,8 @@
 #include "config.h"
 #include "list.h"
 #include "daemon.h"
+#include "timer.h"
+#include "bindconf.h"
 
 char g_progame_name[256];
 char *prog_name;
@@ -48,11 +50,6 @@ int main(int argc,char *argv[])
 	strncpy(g_progame_name,argv[0],sizeof(g_progame_name)-1 );
 	g_progame_name[sizeof(g_progame_name)-1] = '\0';
 
-  //  printf("0\n");	
-  //  char tmp[10] = "hello";
-  //  BOOT_LOG(0,"wawawa,%s",tmp);
-  //  printf("1\n");	
-
 	parse_args(argc,argv);
 	char *p_conf_file=argv[1];
 	//int use_lua_config=0;
@@ -62,6 +59,10 @@ int main(int argc,char *argv[])
 	}
 
     daemon_start(argc, argv);
+    // 更新当前时间
+    renew_now();
+
+    load_bind_file(config_get_strval("bind_conf"));
 
 	return 0;
 }

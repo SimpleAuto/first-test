@@ -20,7 +20,7 @@ typedef struct config_pair{
 int config_init(const char* file_name);
 
 // return -1 on error
-int mmap_config_flie(const char* file_name,char **buf);
+int mmap_config_file(const char* file_name,char **buf);
 
 // return number of words splitted
 int str_split(const char *ifs,char *line,char *field[],int n); 

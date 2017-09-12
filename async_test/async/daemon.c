@@ -91,7 +91,7 @@ static inline void dup_argv(int argc,char **argv)
     if(!saved_argv)
         return;
     saved_argv[argc] = NULL;
-    while(--argv >= 0)
+    while(--argc >= 0)
     {
         saved_argv[argc] = strdup(argv[argc]);;
     }
@@ -121,6 +121,10 @@ int daemon_start(int argc, char** argv)
     sigset_t sset;
     const char* style;
 
+    // 设置进程所能得到的最大资源的限制
+    // rlim_cur 是对资源的软限制
+    // rlim_max 是对资源的硬限制
+    // 这里限制了core文件大小以及 每个进程能打开的最多文件数(即fd的数量)
     rlimit_reset();
 
     memset(&sa,0,sizeof(sa));
@@ -146,6 +150,8 @@ int daemon_start(int argc, char** argv)
     sigaddset(&sset, SIGILL);
     sigaddset(&sset, SIGCHLD);
     sigaddset(&sset, SIGFPE);
+    // 设定对信号屏蔽集内的信号的处理方式
+    // SIG_UNBLOCK 从进程屏蔽里将信号删除，非阻塞
     sigprocmask(SIG_UNBLOCK, &sset, &sset);
 
     arg_start = argv[0];

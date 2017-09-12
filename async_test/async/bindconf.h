@@ -30,6 +30,8 @@ typedef struct bind_config {
 
 extern bind_config_t bindconf;
 
+int load_bind_file(const char* file_name);
+
 #ifdef __cplusplus
 }
 #endif
