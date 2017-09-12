@@ -30,6 +30,138 @@ void init_logfile(logfile_t *logfile)
 }
 
 /**
+ * 这个初始化涉及到的网络接口的ip地址获取行为如下 (为保证无论如何都不影响启动):
+ *
+ * eth0     1           1           0           0
+ * eth1     1           0           1           0
+ * dev      10.x        10.x        10.x        unknownhost
+ * run      192.168     202.x       192.168     unknownhost
+ *
+ * 其中: 1表示存在, 0表示不存在, dev表示开发环境, run表示运营环境
+ * 而 (0,0) 对应的是海外版本的情况, 可能海外的机器的网络接口不是 ethx 的形式;
+ */
+int init_logger_svc_info(const char* svcname, int gameid, const char* svrtype)
+{
+    memset(svc_info, 0, sizeof(*svc_info));
+
+    // svc_info->svc_name
+    if(svcname != NULL && svcname[0] != '\0'){
+        snprintf(svc_info->svcname, sizeof(svc_info->svcname), "%s", svcname);
+    }else{
+        snprintf(svc_info->svcname, sizeof(svc_info->svcname), NIL);
+    }
+
+    // svc_info->svctype
+    if(svrtype!= NULL && svrtype[0] != '\0'){
+        snprintf(svc_info->svrtype, sizeof(svc_info->svrtype), "%s", svrtype);
+    }else{
+        snprintf(svc_info->svrtype, sizeof(svc_info->svrtype), NIL);
+    }
+
+    // svc_info->gameid
+    svc_info->gameid = gameid; 
+
+    // svc_info->hostname (ip)
+    int has_eth0 = 1;
+    char eth0_ip[INET_ADDRSTRLEN];
+    int ret = tlog_get_local_eth_ipstr(TLOG_ETH0, eth0_ip);
+    if(ret == -1)
+    {
+        fprintf(stderr, "ERROR: Failed to get eth0's ip\n'");
+        sprintf(eth0_ip, "unknownhost");
+        has_eth0 = 0;
+    }
+
+    const char *inner_eht0_ip_head = "10.1.";
+    size_t ipheadlen = strlen(inner_eht0_ip_head);
+    const char *ethx = TLOG_ETH1;
+
+    if(has_eth0 && strncmp(eth0_ip, inner_eht0_ip_head, ipheadlen) == 0)
+        ethx = TLOG_ETH0;
+
+    if(tlog_get_local_eth_ipstr(ethx, svc_info->hostname) < 0)
+        memcpy(svc_info->hostname , eth0_ip, INET_ADDRSTRLEN);
+
+    svc_info->init = 1;
+    return 0;
+}
+
+int init_logger(const char* dir, const char* prefix)
+{
+    //int i;
+    int ret = -1;
+
+#define CHECK_INIT_DEPEND(_name) \
+    do { \
+        if( _name->init == 0) {  \
+            fprintf(stderr, "ERROR: init "#_name" first\n"); \
+        }  \
+    }while(0)
+
+    CHECK_INIT_DEPEND(ctrl_cfg);
+    CHECK_INIT_DEPEND(svc_info);
+
+#undef CHECK_INIT_DEPEND
+
+    if(prefix == NULL && prefix[0] == '\0')
+        goto out;
+
+out:
+    if(ret == 0)
+    {
+        memset(udp_sink, 0 ,sizeof(*udp_sink));
+        udp_sink->sendfd = -1;
+
+        if(logger->use_net_ctrl)
+        {
+            if(pthread_create(&logger->thread, NULL, udp_sink_server, NULL ) != 0)
+            {
+                ret = -1;
+            }
+        }
+    }
+    return ret;
+}
+
+int init_logger_ctrl_cfg(int lvl, int daily_max_files, size_t max_one_size, int stop_if_diskfull,  int time_slice_secs)
+{
+    memset(ctrl_cfg, 0, sizeof(*ctrl_cfg));
+
+    if((lvl < tlog_lvl_min) || (lvl >= tlog_lvl_max))
+    {
+        fprintf(stderr, "ERROR: invalid log_level = %d\n",lvl);
+        return -1;
+    }
+
+    if(daily_max_files < 0 || daily_max_files > DAILY_MAX_FILES)
+    {
+        fprintf(stderr, "ERROR: invalid daily_max_files: %d,should in [0,%d])\n",daily_max_files,DAILY_MAX_FILES);
+        return -1;
+    }
+
+    if(max_one_size < MIN_ONE_LOG_SIZE || max_one_size > MAX_ONE_LOG_SIZE)
+    {
+        fprintf(stderr, "ERROR: invalid one_log_size=%zd NOT in [%d,%d]\n",max_one_size,MIN_ONE_LOG_SIZE,MAX_ONE_LOG_SIZE);
+        return -1;
+    }
+
+    if(time_slice_secs < 0)
+    {
+        fprintf(stderr, "ERROR: invalid time_slice_secs=%d\n",time_slice_secs);
+        return -1;
+    }
+
+    ctrl_cfg->log_level        = lvl;
+    ctrl_cfg->daily_max_files  = daily_max_files;
+    ctrl_cfg->max_one_size     = max_one_size;
+    ctrl_cfg->stop_if_diskfull = stop_if_diskfull;
+    ctrl_cfg->time_slice_secs  = time_slice_secs;
+    ctrl_cfg->init             = 1;
+    
+    return 0;
+}
+
+/**
  * @param logfile: 当前级别的log文件;
  * @param tm: 用于产生log文件名的时间;
  * @returns -1: failed, >=0: 合法的slice_no

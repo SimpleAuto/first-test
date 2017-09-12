@@ -16,13 +16,15 @@
 #include <pthread.h>
 #include <sys/types.h>
 #include <sys/epoll.h>
-#include <netinet/in.h>
+#include <net/if.h>
 #include <netinet/tcp.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <net/if.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
+#include <netinet/in.h>
+#include <pthread.h>
 
 #define tlog_likely(x) __builtin_expect(!!(x),1)
 #define tlog_unlikely(x) __builtin_expect(!!(x),0)
@@ -42,6 +44,14 @@
 /*! 不能超过4个十进制位 */
 #define MAX_SLICE_NO            (9999)
 
+/*! 单个log文件的最大上限 (配置里不能超过这个大小) */
+/*! 如果设置 2048 MB, 有可能超过2G是的文件超过系统允许最大大小
+ *  * (未设置 LARGEFILE 的情况下) */
+#define MAX_ONE_LOG_SIZE        (2000)
+
+/*! 单个log文件的最小下限 (配置里不能小于这个大小) */
+#define MIN_ONE_LOG_SIZE        (10) // 10 MB
+
 /*! 当遇到任何不能取到的值时(eg: 业务名), 就用这个宏的字符串替代 */
 #define NIL             "nil" 
 /*! 当磁盘满时, 间隔多久执行下一次检查, 单位: 秒 */
@@ -58,7 +68,28 @@
 /*! 要切换到新的logfile */
 #define DO_SHIFT                (1)
 
+/*! 最大项目编号 */
+#define MAX_GAMEID              (1000)
+
+/*! 最大每个进程 1M Bps, 即: 8M bps (以防止死循环造成的网络拥塞)
+ *  * 并且不可能有多个进程同时trace一个uid的情况, 因此这也就是整个服务范围内的限定 */
+#define MAX_RATE_LIMIT          (1024*1024)
+/*! 默认速率 (初始化时使用): 1M bps */
+#define DEF_RATE_LIMIT          (128*1024)
+/*! 最小速率 (修改时不能小于这个值): 8K bps */
+#define MIN_RATE_LIMIT          (1024)
+
 #define LOGTYPE_HEAD            "LOGHEAD"
+/* 用于限定一类log的每日文件上限 (即 max_files 的最大值); */
+#define DAILY_MAX_FILES         (100000)
+
+#define UDP_SINK_BIND_IP        "239.0.0.100" // for mcast
+#define BASE_SINK_BIND_PORT     (31000) // 业务接受 ctrl 指令的端口;
+#define UDP_SINK_SEND_PORT      (27182) // e=2.7182...
+
+#define TLOG_ETH0               "eth0"
+#define TLOG_ETH1               "eth1"
+#define TLOG_ETH2               "eth2"
 
 enum logger_status_t 
 {
@@ -100,6 +131,14 @@ typedef enum tlog_lvl
 
 	tlog_lvl_max,
 } tlog_lvl_t;
+
+enum def_ctrl_cfg_t {
+    def_log_level               = tlog_lvl_debug,
+    def_daily_max_files         = 0, // 没有每日文件数量上限
+    def_max_one_size            = 100, // 每个文件的上限: 100 MB
+    def_stop_if_diskfull        = 1, // 当磁盘满时, 停止写文件 (但从udp_sink可发日志)
+    def_time_slice_secs         = 900, // 不要每隔多少时间就创建一个新文件, 一直写;
+};
 
 typedef struct _logfile_info
 {

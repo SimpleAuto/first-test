@@ -12,13 +12,14 @@ HEADERS = $(wildcard $(INCLUDEDIR)/*.h)
 OBJS   := $(patsubst %.c,%.o,$(subst $(SRCDIR),$(OBJDIR),$(SRCS)))
 DEPS   := $(patsubst %.c,%.d,$(subst $(SRCDIR),$(DEPDIR),$(SRCS)))
 
-CFLAGS = -Wall -Werror -DDEBUG -D_GNU_SOURCE -DEPOLL_MODE 
+CFLAGS = -Wall -Werror -DDEBUG -D_GNU_SOURCE -DEPOLL_MODE -DUSE_TLOG 
 #CFLAGS = -Wall -DDEBUG -D_GNU_SOURCE -DEPOLL_MODE 
+LIBS   = -lpthread
 
 all: $(TARGET) clean
 
 $(TARGET): $(OBJS)
-	$(CC) -o $(TARGET) $(OBJS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LIBS)
 
 $(DEPDIR)/%.d: $(SRCDIR)/%.c
 	@echo "generate $@"
@@ -29,7 +30,7 @@ $(DEPDIR)/%.d: $(SRCDIR)/%.c
 sinclude $(DEPS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) -c $< -o $@ $(CFLAGS)
+	$(CC) -c $< -o $@ $(CFLAGS) $(LIBS)
 
 .PHONY:clean
 

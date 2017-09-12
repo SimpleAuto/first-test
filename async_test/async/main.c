@@ -64,5 +64,12 @@ int main(int argc,char *argv[])
 
     load_bind_file(config_get_strval("bind_conf"));
 
+#ifdef USE_TLOG
+    INIT_DEFAULT_LOGGER_SYSTEM( config_get_strval("log_dir"),
+                                "0",
+                                config_get_strval("project_name"),
+                                config_get_intval("project_id",0),
+                                config_get_strval("svc_type"));
+#endif
 	return 0;
 }
