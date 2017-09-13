@@ -9,6 +9,7 @@
 #include "daemon.h"
 #include "timer.h"
 #include "bindconf.h"
+#include "util.h"
 
 char g_progame_name[256];
 char *prog_name;
@@ -77,5 +78,14 @@ int main(int argc,char *argv[])
     SET_TIME_SLICE_SECS(log_time_interval);
     SET_LOG_LEVEL(config_get_intval("log_level", tlog_lvl_debug));
 #endif
+
+    log_init_ex( config_get_strval("log_dir"),
+                 config_get_intval("log_level",    log_lvl_trace),
+                 config_get_intval("log_size" ,    1<<30),
+                 config_get_intval("max_log_size", 100),
+                 config_get_strval("log_prefix"),
+                 config_get_intval("log_save_next_file_interval_min", 0));
+
+
 	return 0;
 }

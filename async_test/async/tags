@@ -6,16 +6,16 @@
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 ALERT_LOG	log.h	10;"	d
 ALERT_LOG	log.h	8;"	d
-BASE_SINK_BIND_PORT	tlog_decl.h	87;"	d
-BOOT_FAIL	tlog.c	337;"	d	file:
+BASE_SINK_BIND_PORT	tlog_decl.h	92;"	d
+BOOT_FAIL	tlog.c	384;"	d	file:
 BOOT_LOG	log.h	13;"	d
 BOOT_LOG	log.h	15;"	d
-BOOT_OK	tlog.c	336;"	d	file:
+BOOT_OK	tlog.c	383;"	d	file:
 CC	Makefile	/^CC     = gcc$/;"	m
 CFLAGS	Makefile	/^CFLAGS = -Wall -Werror -DDEBUG -D_GNU_SOURCE -DEPOLL_MODE -DUSE_TLOG $/;"	m
 CHECK_DISKFULL_DUR	tlog_decl.h	58;"	d
-CHECK_INIT_DEPEND	tlog.c	104;"	d	file:
-CHECK_INIT_DEPEND	tlog.c	94;"	d	file:
+CHECK_INIT_DEPEND	tlog.c	102;"	d	file:
+CHECK_INIT_DEPEND	tlog.c	112;"	d	file:
 CONFIG_VAL_SIZE	config.c	12;"	d	file:
 DAILY_MAX_FILES	tlog_decl.h	84;"	d
 DEF_RATE_LIMIT	tlog_decl.h	78;"	d
@@ -78,26 +78,33 @@ MAX_SLICE_NO	tlog_decl.h	45;"	d
 MAX_SVC_NAME_LEN	tlog_decl.h	37;"	d
 MAX_SVRTYPE_LEN	tlog_decl.h	36;"	d
 MAX_TIMESTR_LEN	tlog_decl.h	40;"	d
+MAX_TRACE_TIME	tlog_decl.h	89;"	d
 MAX_TRACE_UID_NUM	tlog_decl.h	33;"	d
 MIN_ONE_LOG_SIZE	tlog_decl.h	53;"	d
 MIN_RATE_LIMIT	tlog_decl.h	80;"	d
+MIN_TRACE_TIME	tlog_decl.h	87;"	d
 MIN_WAIT_UDP_SINK_TIME	tlog_decl.h	61;"	d
 NIL	tlog_decl.h	56;"	d
 OBJDIR	Makefile	/^OBJDIR = $(WORKDIR)\/obj$/;"	m
 OBJS	Makefile	/^OBJS   := $(patsubst %.c,%.o,$(subst $(SRCDIR),$(OBJDIR),$(SRCS)))$/;"	m
 RT_BOOT_TLOG	tlog_mcast.h	7;"	d
-SCREEN_COLS	tlog.c	335;"	d	file:
+SCREEN_COLS	tlog.c	382;"	d	file:
+SET_DAILY_MAX_FILES	tlog_mcast.h	26;"	d
+SET_LOG_LEVEL	tlog_mcast.h	19;"	d
+SET_MAX_ONE_SIZE	tlog_mcast.h	33;"	d
+SET_STOP_IF_DISKFULL	tlog_mcast.h	40;"	d
+SET_TIME_SLICE_SECS	tlog_mcast.h	47;"	d
 SRCDIR	Makefile	/^SRCDIR = $(WORKDIR)\/async$/;"	m
 SRCS	Makefile	/^SRCS    = $(wildcard $(SRCDIR)\/*.c)$/;"	m
 TARGET	Makefile	/^TARGET = $(WORKDIR)\/async\/AsyncServer$/;"	m
 TFileError	fileutils.h	/^}TFileError;$/;"	t	typeref:enum:__anon2
 TFileTest	fileutils.h	/^}TFileTest;$/;"	t	typeref:enum:__anon3
 TLOG_BUF_SIZE	tlog_decl.h	64;"	d
-TLOG_ETH0	tlog_decl.h	90;"	d
-TLOG_ETH1	tlog_decl.h	91;"	d
-TLOG_ETH2	tlog_decl.h	92;"	d
-UDP_SINK_BIND_IP	tlog_decl.h	86;"	d
-UDP_SINK_SEND_PORT	tlog_decl.h	88;"	d
+TLOG_ETH0	tlog_decl.h	95;"	d
+TLOG_ETH1	tlog_decl.h	96;"	d
+TLOG_ETH2	tlog_decl.h	97;"	d
+UDP_SINK_BIND_IP	tlog_decl.h	91;"	d
+UDP_SINK_SEND_PORT	tlog_decl.h	93;"	d
 WORKDIR	Makefile	/^WORKDIR=..\/$/;"	m
 _BINDCONF_H_	bindconf.h	2;"	d
 _CONFIG_H_	config.h	2;"	d
@@ -106,6 +113,7 @@ _FILEUTILS_H_	fileutils.h	2;"	d
 _GLOBAL_H_	global.h	2;"	d
 _HASH_R_H	hash_r.h	2;"	d
 _LIST_H_	list.h	2;"	d
+_LOG_FUN_H_	log_fun.h	2;"	d
 _LOG_H	log.h	2;"	d
 _NETUTILS_H_	netutils.h	2;"	d
 _SHMQ_H_	shmq.h	2;"	d
@@ -114,6 +122,7 @@ _TLOG_DECL_H_	tlog_decl.h	2;"	d
 _TLOG_H	tlog.h	2;"	d
 _TLOG_MCAST_H_	tlog_mcast.h	2;"	d
 _TYPES_H_	types.h	2;"	d
+_UTIL_H_	util.h	2;"	d
 __builtin_prefetch	list.h	9;"	d
 __list_add	list.h	/^static inline void __list_add(struct list_head* new_entry,struct list_head* prev,struct list_head* next)$/;"	f
 _logfile_info	tlog_decl.h	/^typedef struct _logfile_info$/;"	s
@@ -128,6 +137,7 @@ _logger_udp_sink	tlog_decl.h	/^typedef struct _logger_udp_sink $/;"	s
 _pkg_trace_uid	netutils.h	/^typedef struct _pkg_trace_uid $/;"	s
 _rate_limit	tlog_decl.h	/^typedef struct _rate_limit $/;"	s
 _trace_uid	tlog_decl.h	/^typedef struct _trace_uid $/;"	s
+add_to_trace_uid_list	netutils.c	/^int add_to_trace_uid_list(time_t now, pkg_trace_uid_t *pkg_trace_uid)$/;"	f
 addr	shmq.h	/^    shm_head_t *addr;$/;"	m	struct:shm_queue
 addr_changed	tlog_decl.h	/^    int                 addr_changed;$/;"	m	struct:_logger_udp_sink
 arg_end	daemon.c	/^static char*    arg_end;$/;"	v	file:
@@ -222,6 +232,7 @@ init_logger_udp_sink_sendfd	netutils.c	/^int init_logger_udp_sink_sendfd(void)$/
 ip	netutils.h	/^	char				ip[INET_ADDRSTRLEN];$/;"	m	struct:_logger_set_trace_addr
 ip	tlog_decl.h	/^    char                ip[INET_ADDRSTRLEN];$/;"	m	struct:_logger_udp_sink
 is_need_shift_file	tlog.c	/^int is_need_shift_file(logfile_t *logfile)$/;"	f
+k_page_size	tlog.c	/^static int64_t k_page_size;$/;"	v	file:
 key	config.h	/^	char key[];$/;"	m	struct:config_pair
 last_check_diskfull_time	tlog_decl.h	/^	time_t				last_check_diskfull_time;$/;"	m	struct:_logger
 last_rate_time	tlog_decl.h	/^    time_t              last_rate_time;$/;"	m	struct:_rate_limit
@@ -241,6 +252,9 @@ list_for_each_entry	list.h	34;"	d
 list_head	list.h	/^struct list_head{$/;"	s
 list_head_t	list.h	/^typedef struct list_head list_head_t;$/;"	t	typeref:struct:list_head
 load_bind_file	bindconf.c	/^int load_bind_file(const char* file_name)$/;"	f
+log_init	log_fun.c	/^int log_init(const char* dir, log_lvl_t lvl, uint32_t size, int maxfiles, const char* pre_name)$/;"	f
+log_init_ex	util.c	/^int log_init_ex(const char* dir,log_lvl_t lvl, uint32_t size, int maxfiles, const char* pre_name, uint32_t logtime)$/;"	f
+log_init_t	log_fun.c	/^int log_init_t(const char* dir, log_lvl_t lvl,const char* pre_name,int logtime)$/;"	f
 log_level	tlog_decl.h	/^    tlog_lvl_t          log_level;$/;"	m	struct:_logger_ctrl_cfg
 logdir	tlog_decl.h	/^	char				logdir[FILENAME_MAX];$/;"	m	struct:_logger
 logfile	tlog_decl.h	/^	logfile_t			logfile[tlog_lvl_max];$/;"	m	struct:_logger
@@ -304,6 +318,7 @@ sendfd	tlog_decl.h	/^    int                 sendfd;$/;"	m	struct:_logger_udp_si
 sendlog_to_ubp_sink	netutils.c	/^void sendlog_to_ubp_sink(const char* buffer,int len)$/;"	f
 sendq	bindconf.h	/^    shm_queue_t sendq;$/;"	m	struct:bind_config_elem
 seq	netutils.h	/^    uint32_t            seq;$/;"	m	struct:_logger_ctrl_pkg
+severity_str	tlog.c	/^static char *severity_str[tlog_lvl_max] = $/;"	v	file:
 shift_logger_file	tlog.c	/^int shift_logger_file(logfile_t *logfile)$/;"	f
 shm_head	shmq.h	/^typedef struct shm_head$/;"	s
 shm_head_t	shmq.h	/^} __attribute__ ((packed)) shm_head_t;$/;"	t	typeref:struct:shm_head

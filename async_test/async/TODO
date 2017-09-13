@@ -11,8 +11,9 @@
 
 2017/09/12
 目前进度 main.c INIT_DEFAULT_LOGGER_SYSTEM() ---> tlog.h init_logger ---> tlog.c  udp_sink_server  ---> netutils.c proc_logger_pkg() 
-这是创建log的代码，涉及到了socket以及epoll，需要在复习一下相关知识
+这是初始化log的代码，涉及到了socket以及epoll，需要在复习一下相关知识
 
 2017/09/13
-借鉴大神vimrc配置，新增了创建文件加入一些说明信息
+借鉴大神vimrc配置，新增了创建文件加入一些说明信息，如果需要加入说明信息，使用vim创建文件，如果不需要，使用touch创建文件
 15:15 完成了昨日未完成的工作，接下来，开始今天的工作
+目前进度 log_fun.c log_init() ---> get_log_time() and request_log_seq()函数
