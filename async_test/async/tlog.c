@@ -2,13 +2,21 @@
 #include "tlog_decl.h"
 #include "netutils.h"
 #include "fileutils.h"
+#include <pthread.h>
 
 logger_ctrl_cfg_t logger_ctrl_cfg_struct, *ctrl_cfg = &logger_ctrl_cfg_struct;
 logger_svc_info_t logger_svc_info_struct, *svc_info = &logger_svc_info_struct;
 logger_udp_sink_t udp_sink_struct       , *udp_sink = &udp_sink_struct;
 logger_t          logger_struct         , *logger=&logger_struct;
 
+static char *severity_str[tlog_lvl_max] = 
+{
+    "long", "utrace", "fatal", "error",
+    "warn", "info", "debug", "trace",
+};
+
 static int32_t self_thread_pid;
+static int64_t k_page_size;
 
 /* 为创建新的 logfile 做准备 */
 void init_logfile(logfile_t *logfile)
@@ -88,7 +96,7 @@ int init_logger_svc_info(const char* svcname, int gameid, const char* svrtype)
 
 int init_logger(const char* dir, const char* prefix)
 {
-    //int i;
+    int i;
     int ret = -1;
 
 #define CHECK_INIT_DEPEND(_name) \
@@ -105,6 +113,45 @@ int init_logger(const char* dir, const char* prefix)
 
     if(prefix == NULL && prefix[0] == '\0')
         goto out;
+
+    // getpagesize 返回系统分页的大小 (单位bytes) 
+    k_page_size = getpagesize();
+    self_thread_pid = getpid();
+
+    memset(logger,0, sizeof(*logger));
+
+    // 获取并创建logdir
+    if(dir == NULL || dir[0] == '\0' || !strcmp(dir,"/"))
+    {
+        fprintf(stderr,"ERROR: logdir can't be NULL or \'/\' \n");
+        goto out;
+    }
+
+    snprintf(logger->logdir, sizeof(logger->logdir), "%s" , dir);
+    if(tlog_mkdir_with_parents(logger->logdir,0755) == -1)
+    {
+        fprintf(stderr,"ERROR: failed to mkdir: %s (%d): %s\n",logger->logdir,errno,strerror(errno));
+        goto out;
+    }
+
+    /* 文件名格式:
+     *  <basename>-<timestring>
+     * 其中:
+     *  basename: <prefix>-<severity>
+     *  timestring: <yyyymmdd>-<HHMMSS>-<slice_no>
+     *  infostr: 文件内容第一行: <svcname>-<svrtype>-<hostname> */
+    snprintf(logger->prefix, sizeof(logger->prefix), "%s" , prefix);
+    for(i = tlog_lvl_min; i < tlog_lvl_max ; ++i)
+    {
+        logfile_t *logfile  = &(logger->logfile[i]);
+        logfile->baselen    = snprintf(logfile->basename, sizeof(logfile->basename), "%s-%s"   , logger->prefix   , severity_str[i]);
+        logfile->infostrlen = snprintf(logfile->infostr , sizeof(logfile->infostr) , "%s-%s-%s", svc_info->svcname, svc_info->svrtype, svc_info->hostname);
+        logfile->my_lvl     = i;
+        logfile->fd         = -1;
+    }
+
+    logger->status = logger_status_writing;
+    ret = 0;
 
 out:
     if(ret == 0)

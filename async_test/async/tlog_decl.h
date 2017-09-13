@@ -83,6 +83,11 @@
 /* 用于限定一类log的每日文件上限 (即 max_files 的最大值); */
 #define DAILY_MAX_FILES         (100000)
 
+/*! 注册一个trace_uid时最短的life_time, 单位: 秒 */
+#define MIN_TRACE_TIME          (3)
+/*! 注册一个trace_uid时最长的life_time, 单位: 秒 */
+#define MAX_TRACE_TIME          (86400)
+
 #define UDP_SINK_BIND_IP        "239.0.0.100" // for mcast
 #define BASE_SINK_BIND_PORT     (31000) // 业务接受 ctrl 指令的端口;
 #define UDP_SINK_SEND_PORT      (27182) // e=2.7182...

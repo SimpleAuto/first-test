@@ -1,5 +1,5 @@
-#define NOTUSE (0)
-#define USEING (1)
+#define NOTUSE (1)
+#define USEING (0)
 
 /*
  * TODO: I/O复用之select示例 

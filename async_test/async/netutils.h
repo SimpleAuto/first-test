@@ -65,6 +65,7 @@ int tlog_get_local_eth_ip(const char *eth, struct in_addr *addr);
 int tlog_get_local_eth_ipstr(const char *eth,char *ipbuf);
 int tlog_create_mcast_socket(const char* mcast_ip,int gameid, const char *ethx);
 int tlog_mcast_join(int mfd, const struct sockaddr* grpaddr,socklen_t grpaddrlen,const char *ethx);
+int add_to_trace_uid_list(time_t now, pkg_trace_uid_t *pkg_trace_uid);
 int do_set_trace_uid(int fd, time_t now,logger_ctrl_pkg_t *pkg, struct sockaddr_in*from,socklen_t fromlen);
 int do_set_trace_addr(int fd, time_t now,logger_ctrl_pkg_t *pkg, struct sockaddr_in *from,socklen_t fromlen);
 int do_set_rate_limit(int fd, time_t now,logger_ctrl_pkg_t *pkg, struct sockaddr_in *from,socklen_t fromlen);

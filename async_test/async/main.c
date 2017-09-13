@@ -70,6 +70,12 @@ int main(int argc,char *argv[])
                                 config_get_strval("project_name"),
                                 config_get_intval("project_id",0),
                                 config_get_strval("svc_type"));
+    int log_time_interval = config_get_intval("tlog_file_interval_sec",900);
+    if(log_time_interval < 0 || log_time_interval > 86400)
+        log_time_interval = 900;
+    SET_MAX_ONE_SIZE(100);
+    SET_TIME_SLICE_SECS(log_time_interval);
+    SET_LOG_LEVEL(config_get_intval("log_level", tlog_lvl_debug));
 #endif
 	return 0;
 }

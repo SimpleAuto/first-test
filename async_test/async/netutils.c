@@ -54,18 +54,82 @@ int tlog_set_socket_nonblock(int sock)
     return 0;
 }
 
+int add_to_trace_uid_list(time_t now, pkg_trace_uid_t *pkg_trace_uid)
+{
+    int i = 0;
+    trace_uid_t *trace;
+    for(;i < MAX_TRACE_UID_NUM; ++i)
+    {
+        trace = &(udp_sink->trace_uid_list[i]);
+        if(trace->uid && now > trace->expire_time)
+            trace->uid = 0;
+
+        if(trace->uid == 0)
+        {
+            trace->uid         = pkg_trace_uid->uid;
+            trace->expire_time = now + pkg_trace_uid->life_time; 
+            break;
+        }
+    }
+    return 0;
+}
+
 int do_set_trace_uid(int fd, time_t now,logger_ctrl_pkg_t *pkg, struct sockaddr_in *from,socklen_t fromlen)
 {
+    logger_set_trace_uid_t *set_trace_uid = (logger_set_trace_uid_t*)pkg->body;
+
+    uint32_t count = set_trace_uid->count = ntohl(set_trace_uid->count);
+    if(count == 0 || count > MAX_TRACE_UID_NUM)
+        return -1;
+
+    size_t explen = sizeof(logger_ctrl_pkg_t) + sizeof(logger_set_trace_uid_t) + count * sizeof(pkg_trace_uid_t);
+    if(explen != pkg->len)
+        return -1;
+
+    int i;
+    for(i = 0; i < set_trace_uid->count; ++i)
+    {
+        pkg_trace_uid_t *pkg_trace_uid = &(set_trace_uid->pkg_trace_uid[i]);
+        pkg_trace_uid->uid       = ntohl(pkg_trace_uid->uid);
+        pkg_trace_uid->life_time = ntohl(pkg_trace_uid->life_time);
+
+        if(pkg_trace_uid->uid < 50000)
+            continue;
+        if(pkg_trace_uid->life_time < MIN_TRACE_TIME || pkg_trace_uid->life_time > MAX_TRACE_TIME)
+            continue;
+
+        add_to_trace_uid_list(now, pkg_trace_uid);
+    }
+
     return 0;
 }
 
 int do_set_trace_addr(int fd, time_t now,logger_ctrl_pkg_t *pkg, struct sockaddr_in *from,socklen_t fromlen)
 {
+    logger_set_trace_addr *newaddr = (logger_set_trace_addr*)pkg->body;
+    if(tlog_unlikely(newaddr->port == 0 || newaddr->ip[0] == '\0'))
+        return -1;
+
+    // 地址相同，就返回成功
+    if(udp_sink->port == ntohs(newaddr->port) && strncmp(udp_sink->ip, newaddr->ip, INET_ADDRSTRLEN) == 0)
+        return 0;
+
+    // 地址不相同，更新地址，重新初始化发送地址
+    snprintf(udp_sink->ip, sizeof(udp_sink->ip), "%s" , newaddr->ip);
+    udp_sink->port = ntohs(newaddr->port);
+    udp_sink->addr_changed = 1;
+
     return 0;
 }
 
 int do_set_rate_limit(int fd, time_t now,logger_ctrl_pkg_t *pkg, struct sockaddr_in *from,socklen_t fromlen)
 {
+    logger_set_rate_limit *set_rate_limit = (logger_set_rate_limit*)pkg->body;
+    set_rate_limit->limit = ntohl(set_rate_limit->limit);
+    if(set_rate_limit->limit < MIN_RATE_LIMIT || set_rate_limit->limit > MAX_RATE_LIMIT || set_rate_limit->limit == DEF_RATE_LIMIT)
+        return 0;
+
+    udp_sink->rate_limit.chg_limit = set_rate_limit->limit;
     return 0;
 }
 
