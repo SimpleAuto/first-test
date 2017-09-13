@@ -1,0 +1,17 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[branch "master"]
+[remote "origin"]
+	url = git@github.com:SimpleAuto/first-test.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[user]
+	name = SimpleAuto
+	mail = 982737593@qq.com
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+[color]
+	ui = true
