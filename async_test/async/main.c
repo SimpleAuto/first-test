@@ -10,6 +10,7 @@
 #include "timer.h"
 #include "bindconf.h"
 #include "util.h"
+#include "net.h"
 
 char g_progame_name[256];
 char *prog_name;
@@ -79,6 +80,7 @@ int main(int argc,char *argv[])
     SET_LOG_LEVEL(config_get_intval("log_level", tlog_lvl_debug));
 #endif
 
+    // 初始化log目录设置，以及log等级
     log_init_ex( config_get_strval("log_dir"),
                  config_get_intval("log_level",    log_lvl_trace),
                  config_get_intval("log_size" ,    1<<30),
@@ -86,6 +88,13 @@ int main(int argc,char *argv[])
                  config_get_strval("log_prefix"),
                  config_get_intval("log_save_next_file_interval_min", 0));
 
+    socket_timeout       = config_get_intval("cli_socket_timeout"      ,  0);
+    page_size             = config_get_intval("incoming_packet_max_size", -1);
+    g_send_buf_limit_size = config_get_intval("send_buf_limit_size"     ,  0);
+    if(page_size <= 0)
+        page_size = def_page_size;
+
+    register_data_plugin(config_get_strval("data_dll_file"));
 
 	return 0;
 }

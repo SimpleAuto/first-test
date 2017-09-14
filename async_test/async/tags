@@ -70,6 +70,7 @@ MAX_BASENAME_LEN	tlog_decl.h	41;"	d
 MAX_GAMEID	tlog_decl.h	72;"	d
 MAX_HOSTNAME_LEN	tlog_decl.h	39;"	d
 MAX_INFOSTR_LEN	tlog_decl.h	42;"	d
+MAX_LOG_CNT	log_fun.c	12;"	d	file:
 MAX_ONE_LOG_SIZE	tlog_decl.h	50;"	d
 MAX_PREFIX_LEN	tlog_decl.h	35;"	d
 MAX_PROCNAME_LEN	tlog_decl.h	38;"	d
@@ -160,6 +161,8 @@ atomic_sub_and_test	atomic.h	/^atomic_sub_and_test (int i, atomic_t * v)$/;"	f
 atomic_sub_return	atomic.h	/^atomic_sub_return (int i, atomic_t * v)$/;"	f
 atomic_t	atomic.h	/^} atomic_t;$/;"	t	typeref:struct:__anon5
 backgd_mode	daemon.c	/^static int      backgd_mode = 0;$/;"	v	file:
+base_filename	log_fun.c	/^	char	base_filename[64];$/;"	m	struct:fds_t	file:
+base_filename_len	log_fun.c	/^	int		base_filename_len;$/;"	m	struct:fds_t	file:
 baselen	tlog_decl.h	/^    int                 baselen;$/;"	m	struct:_logfile_info
 basename	tlog_decl.h	/^    char                basename[MAX_BASENAME_LEN];$/;"	m	struct:_logfile_info
 bind_conf_max_field_num	bindconf.c	/^    bind_conf_max_field_num = 4 $/;"	e	enum:__anon1	file:
@@ -177,11 +180,13 @@ boot_tlog	tlog.c	/^void boot_tlog(int ok,int dummy,const char* fmt,...)$/;"	f
 chg_limit	tlog_decl.h	/^    int32_t             chg_limit;$/;"	m	struct:_rate_limit
 child_pids	daemon.c	/^atomic_t child_pids[max_listen_fds];$/;"	v
 cmd	netutils.h	/^    uint32_t            cmd;$/;"	m	struct:_logger_ctrl_pkg
+color_end	log_fun.c	/^static const char* color_end = "\\e[m";$/;"	v	file:
 config_append_value	config.c	/^int config_append_value(const char* key,const char *val)$/;"	f
 config_get_intval	config.c	/^int config_get_intval(const char*key,int def)$/;"	f
 config_get_strval	config.c	/^char* config_get_strval(const char* key)$/;"	f
 config_init	config.c	/^int config_init(const char* file_name)$/;"	f
 config_key_hash	config.c	/^static inline struct list_head* config_key_hash(const char* key)$/;"	f	file:
+config_max_log_files	log_fun.c	/^static int         config_max_log_files;           \/\/ 保存原有的max_log_files$/;"	v	file:
 config_pair	config.h	/^typedef struct config_pair{$/;"	s
 config_pair_t	config.h	/^}config_pair_t;$/;"	t	typeref:struct:config_pair
 config_reset_or_add_value	config.c	/^static int  config_reset_or_add_value( const char *  k,  const char *  v)$/;"	f	file:
@@ -191,10 +196,12 @@ count	netutils.h	/^	uint32_t			count;$/;"	m	struct:_logger_set_trace_uid
 counter	atomic.h	/^  volatile int counter;$/;"	m	struct:__anon5
 create_new_logfile	tlog.c	/^int create_new_logfile(logfile_t *logfile)$/;"	f
 ctrl_cfg	tlog.c	/^logger_ctrl_cfg_t logger_ctrl_cfg_struct, *ctrl_cfg = &logger_ctrl_cfg_struct;$/;"	v
+cur_day_seq_count	log_fun.c	/^	int  	cur_day_seq_count;\/\/当天轮转文件的个数$/;"	m	struct:fds_t	file:
 current_dir	main.c	/^char *current_dir;$/;"	v
 daemon_start	daemon.c	/^int daemon_start(int argc, char** argv)$/;"	f
 daily_max_files	tlog_decl.h	/^    int32_t             daily_max_files;$/;"	m	struct:_logger_ctrl_cfg
 daily_seq	tlog_decl.h	/^    int32_t             daily_seq;$/;"	m	struct:_logfile_info
+day	log_fun.c	/^	int		day;$/;"	m	struct:fds_t	file:
 def_ctrl_cfg_t	tlog_decl.h	/^enum def_ctrl_cfg_t {$/;"	g
 def_daily_max_files	tlog_decl.h	/^    def_daily_max_files         = 0, \/\/ 没有每日文件数量上限$/;"	e	enum:def_ctrl_cfg_t
 def_log_level	tlog_decl.h	/^    def_log_level               = tlog_lvl_debug,$/;"	e	enum:def_ctrl_cfg_t
@@ -209,12 +216,22 @@ dup_argv	daemon.c	/^static inline void dup_argv(int argc,char **argv)$/;"	f	file
 env_start	daemon.c	/^static char*    env_start;$/;"	v	file:
 expire_time	tlog_decl.h	/^    int32_t             expire_time;$/;"	m	struct:_trace_uid
 fd	tlog_decl.h	/^    int                 fd;$/;"	m	struct:_logfile_info
+fds_info	log_fun.c	/^} fds_info[log_lvl_max];$/;"	v	typeref:struct:fds_t	file:
+fds_t	log_fun.c	/^static struct fds_t $/;"	s	file:
 file_len	tlog_decl.h	/^    int64_t             file_len;$/;"	m	struct:_logfile_info
+g_log_dest	log_fun.c	/^static log_dest_t  g_log_dest = log_dest_termianl; \/\/ 将日志输出到屏幕上$/;"	v	file:
+g_logtime_interval	log_fun.c	/^static int         g_logtime_interval;             \/\/ 每个日志文件记录日志的总时间(秒)$/;"	v	file:
 g_progame_name	main.c	/^char g_progame_name[256];$/;"	v
+g_shift_fd_mutex	log_fun.c	/^static pthread_mutex_t g_shift_fd_mutex = PTHREAD_MUTEX_INITIALIZER;$/;"	v	file:
 gameid	tlog_decl.h	/^    int                 gameid; $/;"	m	struct:_logger_svc_info
 gen_timestring	tlog.c	/^int gen_timestring(char *buf,int maxlen,logfile_t *log_file,char *datedir)$/;"	f
+get_log_seq_nonrecycle	log_fun.c	/^static int get_log_seq_nonrecycle(int lvl)$/;"	f	file:
+get_log_seq_recycle	log_fun.c	/^static int get_log_seq_recycle(int lvl)$/;"	f	file:
+get_log_time	log_fun.c	/^static inline int get_log_time()$/;"	f	file:
+get_logfile_seqno	log_fun.c	/^static inline int  get_logfile_seqno(const char* filename, int loglvl)$/;"	f	file:
 get_time_slice_no	tlog.c	/^int get_time_slice_no(logfile_t *logfile,char *datedir,struct tm *tm)$/;"	f
 has_init	config.c	/^static int has_init;$/;"	v	file:
+has_init	log_fun.c	/^static int         has_init;$/;"	v	file:
 hash_key	config.c	/^static inline int hash_key(const char* key)$/;"	f	file:
 hash_r5	hash_r.h	/^static inline uint32_t hash_r5(const char* p)$/;"	f
 head	shmq.h	/^    volatile int head;$/;"	m	struct:shm_head
@@ -252,10 +269,35 @@ list_for_each_entry	list.h	34;"	d
 list_head	list.h	/^struct list_head{$/;"	s
 list_head_t	list.h	/^typedef struct list_head list_head_t;$/;"	t	typeref:struct:list_head
 load_bind_file	bindconf.c	/^int load_bind_file(const char* file_name)$/;"	f
+log_buf_sz	log_fun.c	/^	log_buf_sz	= 8192$/;"	e	enum:__anon6	file:
+log_color	log_fun.c	/^static const char* log_color[] = $/;"	v	file:
+log_dest	log_fun.h	/^typedef enum log_dest $/;"	g
+log_dest_both	log_fun.h	/^	log_dest_both		= 3$/;"	e	enum:log_dest
+log_dest_file	log_fun.h	/^	log_dest_file		= 2,$/;"	e	enum:log_dest
+log_dest_t	log_fun.h	/^} log_dest_t;$/;"	t	typeref:enum:log_dest
+log_dest_terminal	log_fun.h	/^	log_dest_terminal	= 1,$/;"	e	enum:log_dest
+log_dir	log_fun.c	/^static char        log_dir[256];                   \/\/ log的路径$/;"	v	file:
+log_file_name	log_fun.c	/^static inline void log_file_name(int lvl, int seq, char *file_name, const struct tm *tm)$/;"	f	file:
+log_file_path	log_fun.c	/^static inline void log_file_path(int lvl, int seq, char *file_name, const struct tm *tm)$/;"	f	file:
 log_init	log_fun.c	/^int log_init(const char* dir, log_lvl_t lvl, uint32_t size, int maxfiles, const char* pre_name)$/;"	f
 log_init_ex	util.c	/^int log_init_ex(const char* dir,log_lvl_t lvl, uint32_t size, int maxfiles, const char* pre_name, uint32_t logtime)$/;"	f
 log_init_t	log_fun.c	/^int log_init_t(const char* dir, log_lvl_t lvl,const char* pre_name,int logtime)$/;"	f
+log_level	log_fun.c	/^static log_lvl_t   log_level  = log_lvl_debug;     \/\/ 缺省的日志等级$/;"	v	file:
 log_level	tlog_decl.h	/^    tlog_lvl_t          log_level;$/;"	m	struct:_logger_ctrl_cfg
+log_lvl	log_fun.h	/^typedef enum log_lvl $/;"	g
+log_lvl_alert	log_fun.h	/^	log_lvl_alert,$/;"	e	enum:log_lvl
+log_lvl_crit	log_fun.h	/^	log_lvl_crit,$/;"	e	enum:log_lvl
+log_lvl_debug	log_fun.h	/^	log_lvl_debug,$/;"	e	enum:log_lvl
+log_lvl_emerg	log_fun.h	/^	log_lvl_emerg,$/;"	e	enum:log_lvl
+log_lvl_error	log_fun.h	/^	log_lvl_error,$/;"	e	enum:log_lvl
+log_lvl_info	log_fun.h	/^	log_lvl_info,$/;"	e	enum:log_lvl
+log_lvl_max	log_fun.h	/^	log_lvl_max$/;"	e	enum:log_lvl
+log_lvl_notice	log_fun.h	/^	log_lvl_notice,$/;"	e	enum:log_lvl
+log_lvl_t	log_fun.h	/^} log_lvl_t;$/;"	t	typeref:enum:log_lvl
+log_lvl_trace	log_fun.h	/^	log_lvl_trace,$/;"	e	enum:log_lvl
+log_lvl_warning	log_fun.h	/^	log_lvl_warning,$/;"	e	enum:log_lvl
+log_pre	log_fun.c	/^static char        log_pre[32];                    \/\/ log文件名的前缀$/;"	v	file:
+log_size	log_fun.c	/^static uint32_t    log_size;                       \/\/ 日志大小$/;"	v	file:
 logdir	tlog_decl.h	/^	char				logdir[FILENAME_MAX];$/;"	m	struct:_logger
 logfile	tlog_decl.h	/^	logfile_t			logfile[tlog_lvl_max];$/;"	m	struct:_logger
 logfile_t	tlog_decl.h	/^}logfile_t;$/;"	t	typeref:struct:_logfile_info
@@ -280,9 +322,11 @@ logger_svc_info_struct	tlog.c	/^logger_svc_info_t logger_svc_info_struct, *svc_i
 logger_svc_info_t	tlog_decl.h	/^}logger_svc_info_t;$/;"	t	typeref:struct:_logger_svc_info
 logger_t	tlog_decl.h	/^} logger_t;$/;"	t	typeref:struct:_logger
 logger_udp_sink_t	tlog_decl.h	/^}logger_udp_sink_t;$/;"	t	typeref:struct:_logger_udp_sink
+lognames	log_fun.c	/^static const char* lognames[] = $/;"	v	file:
 main	main.c	/^int main(int argc,char *argv[])$/;"	f
 max_fd_num	daemon.c	/^int max_fd_num;$/;"	v
 max_listen_fds	bindconf.h	/^    max_listen_fds  = 500 $/;"	e	enum:__anon4
+max_log_files	log_fun.c	/^static int         max_log_files;                  \/\/ 日志最大的文件数$/;"	v	file:
 max_one_size	tlog_decl.h	/^    size_t              max_one_size;$/;"	m	struct:_logger_ctrl_cfg
 mmap_config_file	config.c	/^int mmap_config_file(const char *file_name,char **buf)$/;"	f
 my_lvl	tlog_decl.h	/^    tlog_lvl_t          my_lvl;$/;"	m	struct:_logfile_info
@@ -291,6 +335,7 @@ now	timer.c	/^struct timeval now;$/;"	v	typeref:struct:timeval
 now	tlog_decl.h	/^	time_t				now;$/;"	m	struct:_logger
 online_id	bindconf.h	/^    uint32_t    online_id;$/;"	m	struct:bind_config_elem
 online_name	bindconf.h	/^    char        online_name[16];$/;"	m	struct:bind_config_elem
+opfd	log_fun.c	/^	int		opfd;$/;"	m	struct:fds_t	file:
 parse_args	main.c	/^static inline void parse_args(int argc,char **argv)$/;"	f	file:
 parse_config	config.c	/^static int parse_config(char *buffer)$/;"	f	file:
 pipe_handles	shmq.h	/^    int pipe_handles[2];$/;"	m	struct:shm_queue
@@ -308,6 +353,7 @@ rate_limit_t	tlog_decl.h	/^}rate_limit_t;$/;"	t	typeref:struct:_rate_limit
 recvbuf	tlog_decl.h	/^    char                recvbuf[8192];$/;"	m	struct:_logger_udp_sink
 recvq	bindconf.h	/^    shm_queue_t recvq;$/;"	m	struct:bind_config_elem
 renew_now	timer.h	/^static inline void renew_now()$/;"	f
+request_log_seq	log_fun.c	/^static inline int request_log_seq(int lvl)$/;"	f	file:
 restart	daemon.c	/^volatile int restart     = 0;$/;"	v
 restart_cnt	bindconf.h	/^    uint8_t     restart_cnt;$/;"	m	struct:bind_config_elem
 rlimit_reset	daemon.c	/^static inline void rlimit_reset()$/;"	f	file:
@@ -317,6 +363,7 @@ sendbuf	tlog_decl.h	/^    char                sendbuf[8192];$/;"	m	struct:_logge
 sendfd	tlog_decl.h	/^    int                 sendfd;$/;"	m	struct:_logger_udp_sink
 sendlog_to_ubp_sink	netutils.c	/^void sendlog_to_ubp_sink(const char* buffer,int len)$/;"	f
 sendq	bindconf.h	/^    shm_queue_t sendq;$/;"	m	struct:bind_config_elem
+seq	log_fun.c	/^	int		seq;$/;"	m	struct:fds_t	file:
 seq	netutils.h	/^    uint32_t            seq;$/;"	m	struct:_logger_ctrl_pkg
 severity_str	tlog.c	/^static char *severity_str[tlog_lvl_max] = $/;"	v	file:
 shift_logger_file	tlog.c	/^int shift_logger_file(logfile_t *logfile)$/;"	f

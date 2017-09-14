@@ -1,6 +1,8 @@
 #ifndef _LOG_FUN_H_
 #define _LOG_FUN_H_
 
+#include "types.h"
+
 /**
  * @typedef log_lvl_t
  * @brief   typedef of log_lvl
