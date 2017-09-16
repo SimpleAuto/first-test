@@ -11,16 +11,15 @@
 
 ls_date=`date +%Y%m%d`
 echo $ls_date;
-echo "=========="
 git add .
 echo "=========="
-echo git add .
+echo git add . [OK]
 echo "=========="
 git commit -m \"$ls_date\" .
 echo "=========="
-echo git commit -m \"$ls_date\" .
+echo git commit -m \"$ls_date\" . [OK]
 echo "=========="
 git push -u origin master
 echo "=========="
-echo git push -u origin master
+echo git push -u origin master [OK]
 echo "=========="
