@@ -4,7 +4,7 @@
 #include<unistd.h>
 #include<math.h>
 using namespace std;
-
+ 
 #define BOOT_OK   "\e[1m\e[32m[ ok ]\e[m"
 #define BOOT_FAIL "\e[1m\e[31m[ failed ]\e[m"
 
