@@ -96,6 +96,7 @@ int main(int argc,char *argv[])
         page_size = def_page_size;
 
     register_data_plugin(config_get_strval("data_dll_file"));
+    register_plugin(config_get_strval("dll_file"), 0);
 
 	return 0;
 }
