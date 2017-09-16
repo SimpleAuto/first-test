@@ -15,13 +15,13 @@ echo $ls_date;
 echo $dir;
 git add $dir
 echo "=========="
-echo git add $dir [OK]
+echo -e "\033[31m git add $dir \033[0m" "\033[32m [OK] \033[0m"
 echo "=========="
 git commit -m \"$ls_date\"  $dir
 echo "=========="
-echo git commit -m \"$ls_date\" $dir [OK]
+echo -e "\033[31m git commit -m \"$ls_date\" $dir \033[0m" "\033[32m [OK] \033[0m"
 echo "=========="
 git push -u origin master
 echo "=========="
-echo git push -u origin master [OK]
+echo -e "\033[31m git push -u origin master\033[0m" "\033[32m [OK] \033[0m"
 echo "=========="
