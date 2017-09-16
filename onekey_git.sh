@@ -10,7 +10,7 @@
 ########################################################################
 
 dir=~/grade/first-test
-ls_date=`date +%Y%m%d`
+ls_date=`date +%Y-%m-%d%H:%M:%S`
 echo $ls_date;
 echo $dir;
 git add $dir
