@@ -14,4 +14,9 @@
 #endif
 #define BOOT_LOG(OK, fmt, args...) RT_BOOT_TLOG(OK, fmt,##args)
 
+#ifdef ERROR_LOG
+#undef ERROR_LOG
+#endif
+#define ERROR_LOG(fmt, args...) ERROR_TLOG(fmt, ##args)
+
 #endif

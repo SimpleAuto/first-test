@@ -14,7 +14,7 @@ DEPS   := $(patsubst %.c,%.d,$(subst $(SRCDIR),$(DEPDIR),$(SRCS)))
 
 CFLAGS = -Wall -Werror -DDEBUG -D_GNU_SOURCE -DEPOLL_MODE -DUSE_TLOG 
 #CFLAGS = -Wall -DDEBUG -D_GNU_SOURCE -DEPOLL_MODE 
-LIBS   = -lpthread
+LIBS   = -lpthread -ldl
 
 all: $(TARGET) clean
 

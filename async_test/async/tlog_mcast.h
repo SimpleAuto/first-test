@@ -15,6 +15,17 @@
         write_to_logger(tlog_lvl_fatal,NULL,0,logger_flag_file,"[%s][%d]%s: "fmt"\n",__FILE__,__LINE__,__FUNCTION__,##args ); \
     } while(0)
 
+#define RT_ERROR_TLOG(rt, fmt, args...) \
+    do {  \
+        write_to_logger(tlog_lvl_error, NULL, 0, logger_flag_file, "[%s][%d]%s: "formt"\n",  __FILE__, __LINE__, __FUNCTION__, ##args);  \
+        return rt; \
+    }while (0)
+
+#define ERROR_TLOG(fmt, args...) \
+	do { \
+		write_to_logger(tlog_lvl_error, NULL, 0, logger_flag_file, "[%s][%d]%s: "fmt"\n", __FILE__, __LINE__, __FUNCTION__, ##args); \
+	} while (0)
+
 // ctrl_interfaces
 #define SET_LOG_LEVEL(lvl) \
 	do { \

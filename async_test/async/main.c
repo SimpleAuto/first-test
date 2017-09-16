@@ -11,6 +11,7 @@
 #include "bindconf.h"
 #include "util.h"
 #include "net.h"
+#include "dll.h"
 
 char g_progame_name[256];
 char *prog_name;
