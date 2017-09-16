@@ -9,15 +9,17 @@
 # 
 ########################################################################
 
+dir=~/grade/first-test
 ls_date=`date +%Y%m%d`
 echo $ls_date;
-git add .
+echo $dir;
+git add $dir
 echo "=========="
-echo git add . [OK]
+echo git add $dir [OK]
 echo "=========="
-git commit -m \"$ls_date\" .
+git commit -m \"$ls_date\"  $dir
 echo "=========="
-echo git commit -m \"$ls_date\" . [OK]
+echo git commit -m \"$ls_date\" $dir [OK]
 echo "=========="
 git push -u origin master
 echo "=========="
