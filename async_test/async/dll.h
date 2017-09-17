@@ -103,5 +103,6 @@ typedef struct AsyncServInterface
 extern async_serv_if_t dll;
 
 int register_data_plugin(const char* file_name);
+int register_plugin(const char* file_name, int flag);
 
 #endif // _DLL_H_

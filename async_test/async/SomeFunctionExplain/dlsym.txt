@@ -1,0 +1,27 @@
+基本定义编辑
+包含头文件：
+#include<dlfcn.h>
+函数定义：
+void*dlsym(void*handle,constchar*symbol)
+函数描述：
+dlsym(dynamic library symbol)
+根据 动态链接库 操作句柄(handle)与符号(symbol)，返回符号对应的地址。使用这个函数不但可以获取函数地址，也可以获取变量地址。
+handle：由dlopen打开动态链接库后返回的指针；
+symbol：要求获取的函数或全局变量的名称。
+返回值：
+void* 指向函数的地址，供调用使用。
+使用dlsym编辑
+假设在my.so中定义了一个void mytest()函数，那在使用my.so时先声明一个函数指针：
+void(*pMytest)();
+接下来先将那个my.so载入：
+pHandle=dlopen("my.so",RTLD_LAZY);//详见dlopen函数
+然后使用dlsym函数将函数指针 pMytest 指向 mytest() 函数：
+pMytest=(void(*)())dlsym(pHandle,"mytest");//可见放在双引号中的mytest不用加括号,即使有参数也不用
+（可调用dlerror();返回错误信息，正确返回为空）
+最后通过调用函数指针执行mytest函数：
+int main(){
+    //......
+    pMytest();
+    //......
+    return0;
+}

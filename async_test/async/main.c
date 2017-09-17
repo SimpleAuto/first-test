@@ -93,11 +93,11 @@ int main(int argc,char *argv[])
     page_size             = config_get_intval("incoming_packet_max_size", -1);
     g_send_buf_limit_size = config_get_intval("send_buf_limit_size"     ,  0);
     if(page_size <= 0)
-        page_size = def_page_size;
+        page_size = def_page_size_;
 
+    // 注册动态加载相关
     register_data_plugin(config_get_strval("data_dll_file"));
     register_plugin(config_get_strval("dll_file"), 0);
 
 	return 0;
 }
-

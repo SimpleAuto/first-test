@@ -66,7 +66,7 @@ INIT_DEFAULT_LOGGER_SYSTEM	tlog.h	8;"	d
 INIT_LIST_HEAD	list.h	15;"	d
 IS_DIR_SEPARATOR	fileutils.h	45;"	d
 LIBDIR	Makefile	/^LIBDIR = $(WORKDIR)\/libserver$/;"	m
-LIBS	Makefile	/^LIBS   = -lpthread$/;"	m
+LIBS	Makefile	/^LIBS   = -lpthread -ldl$/;"	m
 LIBTAOMEE_ARCH_I386_ATOMIC_	atomic.h	15;"	d
 LOCK	atomic.h	17;"	d
 LOGTYPE_HEAD	tlog_decl.h	82;"	d
@@ -124,6 +124,7 @@ _LOG_FUN_H_	log_fun.h	2;"	d
 _LOG_H	log.h	2;"	d
 _NETUTILS_H_	netutils.h	2;"	d
 _NET_H_	net.h	2;"	d
+_SERVICE_H_	service.h	13;"	d
 _SHMQ_H_	shmq.h	2;"	d
 _TIMER_H_	timer.h	2;"	d
 _TLOG_DECL_H_	tlog_decl.h	2;"	d
@@ -218,6 +219,7 @@ def_max_one_size	tlog_decl.h	/^    def_max_one_size            = 100, \/\/ 每�
 def_page_size	net.h	/^	def_page_size = 8192$/;"	e	enum:__anon4
 def_stop_if_diskfull	tlog_decl.h	/^    def_stop_if_diskfull        = 1, \/\/ 当磁盘满时, 停止写文件 (但从udp_sink可发日志)$/;"	e	enum:def_ctrl_cfg_t
 def_time_slice_secs	tlog_decl.h	/^    def_time_slice_secs         = 900, \/\/ 不要每隔多少时间就创建一个新文件, 一直写;$/;"	e	enum:def_ctrl_cfg_t
+dll	dll.c	/^async_serv_if_t dll;$/;"	v
 do_send_overflow	netutils.c	/^void do_send_overflow(void)$/;"	f
 do_set_rate_limit	netutils.c	/^int do_set_rate_limit(int fd, time_t now,logger_ctrl_pkg_t *pkg, struct sockaddr_in *from,socklen_t fromlen)$/;"	f
 do_set_trace_addr	netutils.c	/^int do_set_trace_addr(int fd, time_t now,logger_ctrl_pkg_t *pkg, struct sockaddr_in *from,socklen_t fromlen)$/;"	f
@@ -225,9 +227,12 @@ do_set_trace_uid	netutils.c	/^int do_set_trace_uid(int fd, time_t now,logger_ctr
 dup_argv	daemon.c	/^static inline void dup_argv(int argc,char **argv)$/;"	f	file:
 env_start	daemon.c	/^static char*    env_start;$/;"	v	file:
 expire_time	tlog_decl.h	/^    int32_t             expire_time;$/;"	m	struct:_trace_uid
+fd	service.h	/^	int			fd;$/;"	m	struct:fdsession
 fd	tlog_decl.h	/^    int                 fd;$/;"	m	struct:_logfile_info
 fds_info	log_fun.c	/^} fds_info[log_lvl_max];$/;"	v	typeref:struct:fds_t	file:
 fds_t	log_fun.c	/^static struct fds_t $/;"	s	file:
+fdsession	service.h	/^typedef struct fdsession $/;"	s
+fdsession_t	service.h	/^} fdsession_t;$/;"	t	typeref:struct:fdsession
 file_len	tlog_decl.h	/^    int64_t             file_len;$/;"	m	struct:_logfile_info
 fini_service	dll.h	/^	int 	(*fini_service)(int isparent);$/;"	m	struct:AsyncServInterface
 g_log_dest	log_fun.c	/^static log_dest_t  g_log_dest = log_dest_terminal; \/\/ 将日志输出到屏幕上$/;"	v	file:
@@ -249,6 +254,7 @@ hash_key	config.c	/^static inline int hash_key(const char* key)$/;"	f	file:
 hash_r5	hash_r.h	/^static inline uint32_t hash_r5(const char* p)$/;"	f
 head	shmq.h	/^    volatile int head;$/;"	m	struct:shm_head
 hostname	tlog_decl.h	/^    char                hostname[MAX_HOSTNAME_LEN]; \/\/ 实际是ip$/;"	m	struct:_logger_svc_info
+id	service.h	/^	uint32_t	id;$/;"	m	struct:fdsession
 infostr	tlog_decl.h	/^    char                infostr[MAX_INFOSTR_LEN];$/;"	m	struct:_logfile_info
 infostrlen	tlog_decl.h	/^    int                 infostrlen;$/;"	m	struct:_logfile_info
 ini_key_head	config.c	/^static list_head_t ini_key_head[1 << INIKEY_HASHBITS];$/;"	v	file:
@@ -376,6 +382,8 @@ recvbuf	tlog_decl.h	/^    char                recvbuf[8192];$/;"	m	struct:_logge
 recvq	bindconf.h	/^    shm_queue_t recvq;$/;"	m	struct:bind_config_elem
 register_data_plugin	dll.c	/^int register_data_plugin(const char* file_name)$/;"	f
 reload_global_data	dll.h	/^	int		(*reload_global_data)();$/;"	m	struct:AsyncServInterface
+remote_ip	service.h	/^	uint32_t	remote_ip;$/;"	m	struct:fdsession
+remote_port	service.h	/^	uint16_t	remote_port;$/;"	m	struct:fdsession
 renew_now	timer.h	/^static inline void renew_now()$/;"	f
 request_log_seq	log_fun.c	/^static inline int request_log_seq(int lvl)$/;"	f	file:
 restart	daemon.c	/^volatile int restart     = 0;$/;"	v

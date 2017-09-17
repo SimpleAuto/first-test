@@ -26,6 +26,21 @@
 		write_to_logger(tlog_lvl_error, NULL, 0, logger_flag_file, "[%s][%d]%s: "fmt"\n", __FILE__, __LINE__, __FUNCTION__, ##args); \
 	} while (0)
 
+#define INFO_TLOG(fmt, args...) \
+	do { \
+		write_to_logger(tlog_lvl_info, NULL, 0, logger_flag_file, fmt"\n", ##args); \
+	} while (0)
+
+#define DEBUG_TLOG(fmt, args...) \
+	do { \
+		write_to_logger(tlog_lvl_debug, NULL, 0, logger_flag_file, fmt"\n", ##args); \
+	} while (0)
+
+#define TRACE_TLOG(fmt, args...) \
+	do { \
+		write_to_logger(tlog_lvl_trace, NULL, 0, logger_flag_file, fmt"\n", ##args); \
+	} while (0)
+
 // ctrl_interfaces
 #define SET_LOG_LEVEL(lvl) \
 	do { \
