@@ -49,4 +49,12 @@
 #endif
 #define KTRACE_LOG(key, fmt, args...) TRACE_TLOG("%u "fmt, key, ##args)
 
+
+// 带有return的日志
+#define ERROR_RETURN(X,Y) \
+    do { \
+        ERROR_LOG X; \
+        return Y;  \
+    } while(0)
+
 #endif

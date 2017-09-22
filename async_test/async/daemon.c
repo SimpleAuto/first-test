@@ -168,3 +168,12 @@ int daemon_start(int argc, char** argv)
     }
     return 0;
 }
+
+void clean_child_pids()
+{
+    int i;
+    for(i = 0; i < max_listen_fds ;++i)
+    {
+        atomic_set(&child_pids[i], 0);
+    }
+}

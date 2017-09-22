@@ -20,11 +20,14 @@ int connect_to_svr(const char* ipaddr, uint16_t port)
 	peer.sin_family  = AF_INET;
 	peer.sin_port    = htons(port);
 	if (inet_pton (AF_INET, ipaddr, &peer.sin_addr) <= 0) {
+        printf("exit ----\n");
         return -1;
     }
     
     int sockfd = socket(PF_INET, SOCK_STREAM, 0);
+    printf("111\n");
     connect(sockfd, (const struct sockaddr *)&peer, sizeof(peer));
+    printf("222\n");
 
 	return sockfd;
 }
@@ -32,7 +35,7 @@ int connect_to_svr(const char* ipaddr, uint16_t port)
 int main(int argc, char **argv)
 {
     int buf[4096];
-    int sockfd = connect_to_svr("10.1.1.5", 8765);
+    int sockfd = connect_to_svr("127.0.0.1", 8765);
     write(sockfd, "123122", 7);
     ssize_t n = read(sockfd, buf, 4096);
 	write(STDIN_FILENO, buf, n);

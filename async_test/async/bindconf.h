@@ -9,7 +9,8 @@ extern "C" {
 #include "types.h"
 #include "shmq.h"
 
-enum {
+enum 
+{
     max_listen_fds  = 500 
 };
 
@@ -23,7 +24,8 @@ typedef struct bind_config_elem {
     shm_queue_t recvq;
 }bind_config_elem_t;
 
-typedef struct bind_config {
+typedef struct bind_config 
+{
     int                 bind_num;
     bind_config_elem_t  configs[max_listen_fds];
 }bind_config_t;

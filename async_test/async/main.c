@@ -95,9 +95,21 @@ int main(int argc,char *argv[])
     if(page_size <= 0)
         page_size = def_page_size_;
 
+    KDEBUG_LOG(0,"123456");
+    KDEBUG_LOG(0,"1234567");
+
     // 注册动态加载相关
+    // 这个需要之后实现
     register_data_plugin(config_get_strval("data_dll_file"));
     register_plugin(config_get_strval("dll_file"), 0);
+
+    net_init(max_fd_num, max_fd_num);
+    if(dll.init_service && (dll.init_service(1) != 0))
+    {
+        BOOT_LOG(-1, "FAILED TO INIT PARENT PROCESS");
+    }
+
+    clean_child_pids();
 
 	return 0;
 }

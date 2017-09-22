@@ -2,7 +2,8 @@
 #define _LIST_H_
 
 // 链表头结点类型
-struct list_head{
+struct list_head
+{
 	struct list_head *next,*prev;
 };
 

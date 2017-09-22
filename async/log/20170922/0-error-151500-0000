@@ -1,0 +1,2 @@
+2017-09-22 15:16:19	LOGHEAD	112059	mole-nil-192.168.72.131
+2017-09-22 15:16:19	nil	0	[/home/thomas/grade/first-test/async/net.c][323]do_read_conn: connection [fd=10 ip=0x100007F] closed by peer
