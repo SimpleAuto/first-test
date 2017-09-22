@@ -4,6 +4,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <sys/epoll.h>
+#include <netinet/in.h>
 
 #include "types.h"
 #include "bindconf.h"
@@ -80,5 +81,6 @@ struct epinfo
 
 int net_init(int size, int maxevents);
 int do_add_conn(int fd, uint8_t type, struct sockaddr_in* peer, bind_config_elem_t* bc_elem);
+int net_start(const char* listen_ip, in_port_t listen_port, bind_config_elem_t* bc_elem)
 
 #endif  // _NET_H_

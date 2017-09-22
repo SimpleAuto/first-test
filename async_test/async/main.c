@@ -126,6 +126,7 @@ int main(int argc,char *argv[])
         } else if (pid >0){
             close_shmq_pipe(bc, i ,0); 
             do_add_conn(bc_elem->sendq.pipe_handles[0], fd_type_pipe, 0 ,bc_elem);
+            net_start(bc_elem->bind_ip, bc_elem->bind_port, bc_elem);
         } else{
 
         }

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <netinet/in.h>
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
@@ -110,4 +111,18 @@ int do_add_conn(int fd, uint8_t type, struct sockaddr_in* peer, bind_config_elem
 
     TRACE_LOG("add fd=%d, type=%d, id=%u", fd, type, epi.fds[fd].id);
     return 0;
+}
+
+int net_start(const char* listen_ip, in_port_t listen_port, bind_config_elem_t* bc_elem)
+{
+    int ret_code = -1;
+    g_listen_port = listen_port;
+    
+    int listenfd = safe_socket_listen(listen_ip, listen_port, SOCK_STREAM, 1024, 32 * 1024);
+    if( listenfd != -1)
+    {
+        set_io_blockability(listenfd,1);
+    }
+
+    BOOT_LOG(ret_code, "Listen on %s:%u", listen_ip ? listen_ip: "ANYADDR",listen_port);
 }
