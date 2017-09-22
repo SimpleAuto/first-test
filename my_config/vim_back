@@ -234,8 +234,6 @@ set showmatch
 set ruler
 set incsearch
 set hlsearch
-set cul "高亮光标所在行
-set cuc
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""新文件标题
@@ -334,13 +332,13 @@ func SetTitle()
         call append(line(".")+11, "")
     endif
     if expand("%:e") == 'h'
-        call append(line(".")+10, "#ifndef __".toupper(expand("%:r"))."__H")
-        call append(line(".")+11, "#define __".toupper(expand("%:r"))."__H")
-        call append(line(".")+12, "#endif")
+        call append(line(".")+10, "#ifndef _".toupper(expand("%:r"))."_H_")
+        call append(line(".")+11, "#define _".toupper(expand("%:r"))."_H_")
+        call append(line(".")+13, "#endif // _".toupper(expand("%:r"))."_H_")
     elseif expand("%:e") == 'hpp'
-        call append(line(".")+10, "#ifndef __".toupper(expand("%:r"))."__H")
-        call append(line(".")+11, "#define __".toupper(expand("%:r"))."__H")
-        call append(line(".")+12, "#endif")
+        call append(line(".")+10, "#ifndef _".toupper(expand("%:r"))."_H_")
+        call append(line(".")+11, "#define _".toupper(expand("%:r"))."_H_")
+        call append(line(".")+13, "#endif // _".toupper(expand("%:r"))."_H_")
     endif
     if &filetype == 'java'
         call append(line(".")+10,"public class ".expand("%:r"))
@@ -349,3 +347,5 @@ func SetTitle()
     "新建文件后，自动定位到文件末尾
 endfunc
 autocmd BufNewFile * normal G
+
+au BufReadPost * if line("'\"")>0|if line("'\"")<=line("$")|exe("norm'\"")|else|exe "norm $"|endif|endif
