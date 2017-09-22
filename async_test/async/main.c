@@ -111,5 +111,7 @@ int main(int argc,char *argv[])
 
     clean_child_pids();
 
+    bind_config_t* bc = get_bind_conf();
+
 	return 0;
 }
