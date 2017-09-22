@@ -2,11 +2,18 @@
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <assert.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <linux/types.h>
+#include <sys/mman.h>
 
-#include "net.h"
 #include "types.h"
 #include "log.h"
 #include "list.h"
+#include "util.h"
+#include "net.h"
 
 time_t    socket_timeout;
 int       page_size;
@@ -15,6 +22,21 @@ char      g_listen_ip[16];
 uint32_t  g_send_buf_limit_size;
 
 struct epinfo epi;
+
+static inline int add_events(int epfd, int fd, uint32_t flag)
+{
+    struct epoll_event ev;
+    ev.events  = flag;
+    ev.data.fd = fd;
+epoll_add_again:
+    if(unlikely(epoll_ctl (epfd,EPOLL_CTL_ADD, fd, &ev)!= 0))
+    {
+        if(errno == EINTR)
+            goto epoll_add_again;
+        ERROR_RETURN(("epoll_ctl add %d error: %m",fd),-1);
+    }
+    return 0;
+}
 
 int net_init(int size, int maxevents)
 {
@@ -45,4 +67,47 @@ fd_fail:
 events_fail:
     close(epi.epfd);
     ERROR_RETURN (("malloc failed,size=%d",size), -1);
+}
+
+int do_add_conn(int fd, uint8_t type, struct sockaddr_in* peer, bind_config_elem_t* bc_elem)
+{
+    static uint32_t seq = 0;
+    uint32_t flag;
+    
+    switch(type)
+    {
+        case fd_type_pipe:
+        case fd_type_mcast:
+        case fd_type_addr_mcast:
+        case fd_type_udp:
+            flag = EPOLLIN;
+            break;
+        case fd_type_asyn_connect:
+            flag = EPOLLIN;
+            break;
+        default:
+            flag = EPOLLIN | EPOLLET;
+            break;
+    }
+
+    if(add_events(epi.epfd, fd, flag) == -1)
+        return -1;
+
+    memset(&epi.fds[fd], 0x0, sizeof(struct fdinfo));
+    epi.fds[fd].sockefd = fd;
+    epi.fds[fd].type    = type;
+    epi.fds[fd].id      = ++seq;
+    if(seq == 0)
+        epi.fds[fd].id = ++seq;
+    if(peer)
+    {
+        epi.fds[fd].sk.remote_ip   = peer->sin_addr.s_addr;
+        epi.fds[fd].sk.remote_port = peer->sin_port;
+    }
+    epi.fds[fd].bc_elem = bc_elem;
+    epi.maxfd   =  epi.maxfd > fd ? epi.maxfd : fd;
+    epi.count++;
+
+    TRACE_LOG("add fd=%d, type=%d, id=%u", fd, type, epi.fds[fd].id);
+    return 0;
 }

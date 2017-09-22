@@ -12,6 +12,7 @@
 #include "util.h"
 #include "net.h"
 #include "dll.h"
+#include "shmq.h"
 
 char g_progame_name[256];
 char *prog_name;
@@ -112,6 +113,23 @@ int main(int argc,char *argv[])
     clean_child_pids();
 
     bind_config_t* bc = get_bind_conf();
+    int i;
+    pid_t pid;
+    for(i = 0; i != bc->bind_num; ++i)
+    {
+        bind_config_elem_t* bc_elem = &(bc->configs[i]);
+        shmq_create(bc_elem);
+        
+        if( (pid = fork()) <0)
+        {
+            BOOT_LOG(-1, "fork child process");
+        } else if (pid >0){
+            close_shmq_pipe(bc, i ,0); 
+            do_add_conn(bc_elem->sendq.pipe_handles[0], fd_type_pipe, 0 ,bc_elem);
+        } else{
+
+        }
+    }
 
 	return 0;
 }

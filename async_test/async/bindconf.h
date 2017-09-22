@@ -14,7 +14,8 @@ enum
     max_listen_fds  = 500 
 };
 
-typedef struct bind_config_elem {
+typedef struct bind_config_elem 
+{
     uint32_t    online_id;
     char        online_name[16];
     char        bind_ip[16];
@@ -33,6 +34,11 @@ typedef struct bind_config
 extern bind_config_t bindconf;
 
 int load_bind_file(const char* file_name);
+
+static inline bind_config_t* get_bind_conf()
+{
+    return &bindconf;
+}
 
 #ifdef __cplusplus
 }

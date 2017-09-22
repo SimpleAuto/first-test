@@ -5,8 +5,10 @@
 extern "C"{
 #endif
 
-#include "atomic.h"
 #include <stdint.h>
+
+#include "atomic.h"
+#include "bindconf.h"
 
 typedef struct shm_head
 {
@@ -30,6 +32,13 @@ typedef struct shm_block
 	char		type;
 	uint8_t		data[];
 } __attribute__ ((packed)) shm_block_t;
+
+struct bind_config_elem;
+struct bind_config;
+
+int shmq_create(struct bind_config_elem *p);
+void close_shmq_pipe(struct bind_config* bc, int idx, int is_child);
+
 #ifdef __cplusplus
 }
 #endif

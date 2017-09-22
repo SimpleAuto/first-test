@@ -31,3 +31,4 @@ dll.h中  struct AsyncServInterface 感觉是个好东西 研究研究再接着�
 
 2017/02/22
 test.so 其实就是在bench.conf中动态加载的so文件，就是之后如果要实现demo所需要自己完成的服务部分
+17:03 目前到了 已完成了添加链接，下一步需要开始通信，父进程调用
