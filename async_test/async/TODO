@@ -29,7 +29,10 @@ dll.h中  struct AsyncServInterface 感觉是个好东西 研究研究再接着�
 2017/09/17
 有点不想写了，嵌套代码真是太烦了，等等换个心情继续写，加油啊
 
-2017/02/22
+2017/09/22
 test.so 其实就是在bench.conf中动态加载的so文件，就是之后如果要实现demo所需要自己完成的服务部分
 17:03 目前到了 已完成了添加链接，下一步需要开始通信，父进程调用
 18:09 等待实现net.c中 set_io_blockability()函数 safe_socket_listen()函数
+
+2017/10/10
+20:42 目前到了 run_worker_process()函数中实现daemon_set_title()函数

@@ -169,6 +169,48 @@ int daemon_start(int argc, char** argv)
     return 0;
 }
 
+void daemon_set_title(const char *fmt,...)
+{
+    char title[64];
+    int i, tlen;
+    va_list ap;
+
+    va_start(ap, fmt);
+    vsnprintf(title, sizeof(title)-1 , fmt, ap);
+    va_end(ap);
+
+    tlen = strlen(title) +1;
+    if(arg_end - arg_start < tlen && env_start == arg_end)
+    {
+        char *env_end = env_start;
+        for(i=0; environ[i]; ++i)
+        {
+            if(env_end == environ[i])
+            {
+                env_end    = environ[i] + strlen(environ[i]) + 1;
+                environ[i] = strdup(environ[i]);
+            }
+            else 
+            {
+                break;
+            }
+        }
+        arg_end   = env_end;
+        env_start = NULL;
+    }
+
+    i = arg_end - arg_start;
+    if(tlen == i)
+    {
+        strcpy(arg_start, title);
+    }else if(tlen < i){
+        strcpy(arg_start, title);
+        memset(arg_start + tlen, 0 , i-tlen);
+    }else {
+        stpncpy(arg_start, title, i-1)[0] = '\0';
+    }
+}
+
 void clean_child_pids()
 {
     int i;

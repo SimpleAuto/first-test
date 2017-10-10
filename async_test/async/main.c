@@ -127,8 +127,11 @@ int main(int argc,char *argv[])
             close_shmq_pipe(bc, i ,0); 
             do_add_conn(bc_elem->sendq.pipe_handles[0], fd_type_pipe, 0 ,bc_elem);
             net_start(bc_elem->bind_ip, bc_elem->bind_port, bc_elem);
+            atomic_set(&child_pids[i],pid);
         } else{
-
+            g_listen_port = bc_elem->bind_port;
+            strncpy(g_listen_ip, bc_elem->bind_ip, sizeof(g_listen_ip) -1);
+            run_worker_process(bc, i, i+1);
         }
     }
 

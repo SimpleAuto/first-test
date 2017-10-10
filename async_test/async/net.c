@@ -14,6 +14,7 @@
 #include "log.h"
 #include "list.h"
 #include "util.h"
+#include "tcp.h"
 #include "net.h"
 
 time_t    socket_timeout;
@@ -21,8 +22,7 @@ int       page_size;
 int       g_listen_port;
 char      g_listen_ip[16];
 uint32_t  g_send_buf_limit_size;
-
-struct epinfo epi;
+struct    epinfo epi;
 
 static inline int add_events(int epfd, int fd, uint32_t flag)
 {
@@ -37,6 +37,23 @@ epoll_add_again:
         ERROR_RETURN(("epoll_ctl add %d error: %m",fd),-1);
     }
     return 0;
+}
+
+static inline void free_cb(struct conf_buf *p)
+{
+    if(p->sendptr)
+    {
+        free(p->sendptr);
+        p->sendptr = NULL;
+    }
+    if(p->recvptr)
+    {
+        free(p->recvptr);
+        p->recvptr = NULL;
+    }
+
+    p->sendlen = 0;
+    p->recvlen = 0;
 }
 
 int net_init(int size, int maxevents)
@@ -122,7 +139,25 @@ int net_start(const char* listen_ip, in_port_t listen_port, bind_config_elem_t* 
     if( listenfd != -1)
     {
         set_io_blockability(listenfd,1);
+        do_add_conn(listen_port,fd_type_listen,0,bc_elem);
+        ret_code = 0;
     }
 
     BOOT_LOG(ret_code, "Listen on %s:%u", listen_ip ? listen_ip: "ANYADDR",listen_port);
+}
+
+void net_exit()
+{
+    for(int i=0; i< epi.maxfd+1 ; ++i)
+    {
+        if(epi.fds[i].type == fd_type_unused)
+            continue;
+
+        free_cb(&epi.fds[i].cb);
+        close(i);
+    }
+
+    free (epi.fds);
+    free (epi.evs);
+    close(epi.epfd);
 }

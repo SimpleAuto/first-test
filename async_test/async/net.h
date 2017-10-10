@@ -33,6 +33,7 @@ extern int       page_size;
 extern int       g_listen_port;
 extern char      g_listen_ip[16];
 extern uint32_t  g_send_buf_limit_size;
+extern struct    epinfo epi;
 
 typedef struct conf_buf
 {
@@ -81,6 +82,8 @@ struct epinfo
 
 int net_init(int size, int maxevents);
 int do_add_conn(int fd, uint8_t type, struct sockaddr_in* peer, bind_config_elem_t* bc_elem);
-int net_start(const char* listen_ip, in_port_t listen_port, bind_config_elem_t* bc_elem)
+int net_start(const char* listen_ip, in_port_t listen_port, bind_config_elem_t* bc_elem);
+
+void net_exit();
 
 #endif  // _NET_H_

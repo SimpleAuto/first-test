@@ -57,3 +57,34 @@ void close_shmq_pipe(bind_config_t* bc, int idx, int is_child)
         close(bc->configs[idx].sendq.pipe_handles[0]);
     }
 }
+
+void do_destory_shmq(struct bind_config_elem* bc_elem)
+{
+    struct shm_queue *q = &(bc_elem->sendq);
+
+    if(q->addr)
+    {
+        munmap(q->addr, q->length);
+        q->addr = 0;
+    }
+
+    q = &(bc_elem->recvq);
+    if(q->addr)
+    {
+        munmap(q->addr, q->length);
+        q->addr = 0;
+    }
+}
+
+void shmq_destory(const struct bind_config_elem* exclu_bc_elem, int max_shmq_num)
+{
+    bind_config_t* bc = get_bind_conf();    
+
+    for(int i=0; i != max_shmq_num; ++i)
+    {
+        if( &(bc->configs[i]) != exclu_bc_elem)
+        {
+            do_destory_shmq(&(bc->configs[i]));
+        }
+    }
+}

@@ -13,7 +13,9 @@ BOOT_LOG	log.h	13;"	d
 BOOT_LOG	log.h	15;"	d
 BOOT_OK	tlog.c	383;"	d	file:
 CC	Makefile	/^CC     = gcc$/;"	m
+CC	sample/Makefile	/^CC = gcc$/;"	m
 CFLAGS	Makefile	/^CFLAGS = -Wall -Werror -DDEBUG -D_GNU_SOURCE -DEPOLL_MODE -DUSE_TLOG $/;"	m
+CFLAGS	sample/Makefile	/^CFLAGS  = -Wall -pipe -DUSE_TLOG -DDEBUG -g -D_GNU_SOURCE -shared -fPIC -D_REENTRANT$/;"	m
 CHECK_DISKFULL_DUR	tlog_decl.h	58;"	d
 CHECK_INIT_DEPEND	tlog.c	102;"	d	file:
 CHECK_INIT_DEPEND	tlog.c	112;"	d	file:
@@ -32,6 +34,7 @@ DONT_SHIFT	tlog_decl.h	67;"	d
 DO_SHIFT	tlog_decl.h	69;"	d
 ERROR_LOG	log.h	18;"	d
 ERROR_LOG	log.h	20;"	d
+ERROR_RETURN	log.h	54;"	d
 ERROR_TLOG	tlog_mcast.h	24;"	d
 FATAL_TLOG	tlog_mcast.h	13;"	d
 FILE_ERROR_ACCES	fileutils.h	/^    FILE_ERROR_ACCES,$/;"	e	enum:__anon2
@@ -65,6 +68,7 @@ FILE_TEST_IS_EXECUTABLE	fileutils.h	/^    FILE_TEST_IS_EXECUTABLE = 1 << 3,$/;"	
 FILE_TEST_IS_REGULAR	fileutils.h	/^    FILE_TEST_IS_REGULAR    = 1 << 0,$/;"	e	enum:__anon3
 FILE_TEST_IS_SYMLINK	fileutils.h	/^    FILE_TEST_IS_SYMLINK    = 1 << 1,$/;"	e	enum:__anon3
 HEADERS	Makefile	/^HEADERS = $(wildcard $(INCLUDEDIR)\/*.h)$/;"	m
+INCLUDE	sample/Makefile	/^INCLUDE =   -I\/usr\/include\/glib-2.0 -I\/usr\/lib\/glib-2.0\/include\/ -I..\/..\/$/;"	m
 INCLUDEDIR	Makefile	/^INCLUDEDIR = $(WORKDIR)\/async$/;"	m
 INFO_LOG	log.h	23;"	d
 INFO_LOG	log.h	25;"	d
@@ -79,6 +83,7 @@ KINFO_LOG	log.h	28;"	d
 KINFO_LOG	log.h	30;"	d
 KTRACE_LOG	log.h	48;"	d
 KTRACE_LOG	log.h	50;"	d
+LIB	sample/Makefile	/^LIB 	= -ldl -lrt $/;"	m
 LIBDIR	Makefile	/^LIBDIR = $(WORKDIR)\/libserver$/;"	m
 LIBS	Makefile	/^LIBS   = -lpthread -ldl$/;"	m
 LIBTAOMEE_ARCH_I386_ATOMIC_	atomic.h	15;"	d
@@ -106,6 +111,7 @@ MIN_WAIT_UDP_SINK_TIME	tlog_decl.h	61;"	d
 NIL	tlog_decl.h	56;"	d
 OBJDIR	Makefile	/^OBJDIR = $(WORKDIR)\/obj$/;"	m
 OBJS	Makefile	/^OBJS   := $(patsubst %.c,%.o,$(subst $(SRCDIR),$(OBJDIR),$(SRCS)))$/;"	m
+OO	sample/Makefile	/^OO	= test.o$/;"	m
 RT_BOOT_TLOG	tlog_mcast.h	7;"	d
 RT_ERROR_TLOG	tlog_mcast.h	18;"	d
 SCREEN_COLS	tlog.c	382;"	d	file:
@@ -117,6 +123,7 @@ SET_TIME_SLICE_SECS	tlog_mcast.h	73;"	d
 SRCDIR	Makefile	/^SRCDIR = $(WORKDIR)\/async$/;"	m
 SRCS	Makefile	/^SRCS    = $(wildcard $(SRCDIR)\/*.c)$/;"	m
 TARGET	Makefile	/^TARGET = $(WORKDIR)\/async\/AsyncServer$/;"	m
+TARGETS	sample/Makefile	/^TARGETS = test.so$/;"	m
 TFileError	fileutils.h	/^}TFileError;$/;"	t	typeref:enum:__anon2
 TFileTest	fileutils.h	/^}TFileTest;$/;"	t	typeref:enum:__anon3
 TLOG_BUF_SIZE	tlog_decl.h	64;"	d
@@ -136,13 +143,17 @@ _DLL_H_	dll.h	2;"	d
 _FILEUTILS_H_	fileutils.h	2;"	d
 _GLOBAL_H_	global.h	2;"	d
 _HASH_R_H	hash_r.h	2;"	d
+_INET_UTILS_H_	inet_utils.h	2;"	d
 _LIST_H_	list.h	2;"	d
 _LOG_FUN_H_	log_fun.h	2;"	d
 _LOG_H	log.h	2;"	d
+_MCAST_H_	mcast.h	13;"	d
 _NETUTILS_H_	netutils.h	2;"	d
 _NET_H_	net.h	2;"	d
+_SERVICE_H_	sample/test.h	2;"	d
 _SERVICE_H_	service.h	13;"	d
 _SHMQ_H_	shmq.h	2;"	d
+_TCP_H_	tcp.h	2;"	d
 _TIMER_H_	timer.h	2;"	d
 _TLOG_DECL_H_	tlog_decl.h	2;"	d
 _TLOG_H	tlog.h	2;"	d
@@ -163,6 +174,7 @@ _logger_udp_sink	tlog_decl.h	/^typedef struct _logger_udp_sink $/;"	s
 _pkg_trace_uid	netutils.h	/^typedef struct _pkg_trace_uid $/;"	s
 _rate_limit	tlog_decl.h	/^typedef struct _rate_limit $/;"	s
 _trace_uid	tlog_decl.h	/^typedef struct _trace_uid $/;"	s
+add_events	net.c	/^static inline int add_events(int epfd, int fd, uint32_t flag)$/;"	f	file:
 add_to_trace_uid_list	netutils.c	/^int add_to_trace_uid_list(time_t now, pkg_trace_uid_t *pkg_trace_uid)$/;"	f
 addr	shmq.h	/^    shm_head_t *addr;$/;"	m	struct:shm_queue
 addr_changed	tlog_decl.h	/^    int                 addr_changed;$/;"	m	struct:_logger_udp_sink
@@ -196,7 +208,7 @@ bc_elem	net.h	/^    struct bind_config_elem* bc_elem;$/;"	m	struct:fdinfo	typere
 before_reload	dll.h	/^	int		(*before_reload)(int isparent);$/;"	m	struct:AsyncServInterface
 bind_conf_max_field_num	bindconf.c	/^    bind_conf_max_field_num = 4 $/;"	e	enum:__anon1	file:
 bind_config	bindconf.h	/^typedef struct bind_config $/;"	s
-bind_config_elem	bindconf.h	/^typedef struct bind_config_elem {$/;"	s
+bind_config_elem	bindconf.h	/^typedef struct bind_config_elem $/;"	s
 bind_config_elem_t	bindconf.h	/^}bind_config_elem_t;$/;"	t	typeref:struct:bind_config_elem
 bind_config_t	bindconf.h	/^}bind_config_t;$/;"	t	typeref:struct:bind_config
 bind_ip	bindconf.h	/^    char        bind_ip[16];$/;"	m	struct:bind_config_elem
@@ -210,7 +222,9 @@ callback	net.h	/^    void        (*callback)(int fd, void *arg);$/;"	m	struct:fd
 cb	net.h	/^    conf_buf_t  cb;$/;"	m	struct:fdinfo
 chg_limit	tlog_decl.h	/^    int32_t             chg_limit;$/;"	m	struct:_rate_limit
 child_pids	daemon.c	/^atomic_t child_pids[max_listen_fds];$/;"	v
+clean_child_pids	daemon.c	/^void clean_child_pids()$/;"	f
 close_head	net.h	/^    list_head_t         close_head;$/;"	m	struct:epinfo
+close_shmq_pipe	shmq.c	/^void close_shmq_pipe(bind_config_t* bc, int idx, int is_child)$/;"	f
 cmd	netutils.h	/^    uint32_t            cmd;$/;"	m	struct:_logger_ctrl_pkg
 conf_buf	net.h	/^typedef struct conf_buf$/;"	s
 conf_buf_t	net.h	/^}conf_buf_t;$/;"	t	typeref:struct:conf_buf
@@ -229,12 +243,14 @@ count	net.h	/^    int                 count;$/;"	m	struct:epinfo
 count	netutils.h	/^	uint32_t			count;$/;"	m	struct:_logger_set_trace_uid
 counter	atomic.h	/^  volatile int counter;$/;"	m	struct:__anon7
 create_new_logfile	tlog.c	/^int create_new_logfile(logfile_t *logfile)$/;"	f
+create_passive_endpoint	tcp.c	/^int create_passive_endpoint(const char* host, const char* serv, int socktype, int backlog, int bufsize)$/;"	f
 ctrl_cfg	tlog.c	/^logger_ctrl_cfg_t logger_ctrl_cfg_struct, *ctrl_cfg = &logger_ctrl_cfg_struct;$/;"	v
 cur_day_seq_count	log_fun.c	/^	int  	cur_day_seq_count;\/\/当天轮转文件的个数$/;"	m	struct:fds_t	file:
 current_dir	main.c	/^char *current_dir;$/;"	v
 daemon_start	daemon.c	/^int daemon_start(int argc, char** argv)$/;"	f
 daily_max_files	tlog_decl.h	/^    int32_t             daily_max_files;$/;"	m	struct:_logger_ctrl_cfg
 daily_seq	tlog_decl.h	/^    int32_t             daily_seq;$/;"	m	struct:_logfile_info
+data	shmq.h	/^	uint8_t		data[];$/;"	m	struct:shm_block
 data_handle	dll.h	/^	void*   data_handle; \/\/ Hold the handle returned by dlopen$/;"	m	struct:AsyncServInterface
 day	log_fun.c	/^	int		day;$/;"	m	struct:fds_t	file:
 def_ctrl_cfg_t	tlog_decl.h	/^enum def_ctrl_cfg_t {$/;"	g
@@ -245,19 +261,24 @@ def_page_size_	net.h	/^	def_page_size_ = 8192$/;"	e	enum:__anon4
 def_stop_if_diskfull	tlog_decl.h	/^    def_stop_if_diskfull        = 1, \/\/ 当磁盘满时, 停止写文件 (但从udp_sink可发日志)$/;"	e	enum:def_ctrl_cfg_t
 def_time_slice_secs	tlog_decl.h	/^    def_time_slice_secs         = 900, \/\/ 不要每隔多少时间就创建一个新文件, 一直写;$/;"	e	enum:def_ctrl_cfg_t
 dll	dll.c	/^async_serv_if_t dll;$/;"	v
+do_add_conn	net.c	/^int do_add_conn(int fd, uint8_t type, struct sockaddr_in* peer, bind_config_elem_t* bc_elem)$/;"	f
+do_destory_shmq	shmq.c	/^void do_destory_shmq(struct bind_config_elem* bc_elem)$/;"	f
 do_send_overflow	netutils.c	/^void do_send_overflow(void)$/;"	f
 do_set_rate_limit	netutils.c	/^int do_set_rate_limit(int fd, time_t now,logger_ctrl_pkg_t *pkg, struct sockaddr_in *from,socklen_t fromlen)$/;"	f
 do_set_trace_addr	netutils.c	/^int do_set_trace_addr(int fd, time_t now,logger_ctrl_pkg_t *pkg, struct sockaddr_in *from,socklen_t fromlen)$/;"	f
 do_set_trace_uid	netutils.c	/^int do_set_trace_uid(int fd, time_t now,logger_ctrl_pkg_t *pkg, struct sockaddr_in *from,socklen_t fromlen)$/;"	f
+do_shmq_create	shmq.c	/^static int do_shmq_create(struct shm_queue *q)$/;"	f	file:
 dup_argv	daemon.c	/^static inline void dup_argv(int argc,char **argv)$/;"	f	file:
+eai_to_errno	inet_utils.c	/^int eai_to_errno(int eai)$/;"	f
 env_start	daemon.c	/^static char*    env_start;$/;"	v	file:
 epfd	net.h	/^    int                 epfd;$/;"	m	struct:epinfo
-epi	net.c	/^struct epinfo epi;$/;"	v	typeref:struct:epinfo
+epi	net.c	/^struct    epinfo epi;$/;"	v	typeref:struct:epinfo
 epinfo	net.h	/^struct epinfo$/;"	s
 etin_head	net.h	/^    list_head_t         etin_head;$/;"	m	struct:epinfo
 evs	net.h	/^    struct epoll_event* evs;$/;"	m	struct:epinfo	typeref:struct:epinfo::epoll_event
 expire_time	tlog_decl.h	/^    int32_t             expire_time;$/;"	m	struct:_trace_uid
 fd	service.h	/^	int			fd;$/;"	m	struct:fdsession
+fd	shmq.h	/^	uint32_t	fd;$/;"	m	struct:shm_block
 fd	tlog_decl.h	/^    int                 fd;$/;"	m	struct:_logfile_info
 fd_type_addr_mcast	net.h	/^	fd_type_addr_mcast,$/;"	e	enum:__anon5
 fd_type_asyn_connect	net.h	/^	fd_type_asyn_connect$/;"	e	enum:__anon5
@@ -276,7 +297,9 @@ fdsession	service.h	/^typedef struct fdsession $/;"	s
 fdsession_t	service.h	/^} fdsession_t;$/;"	t	typeref:struct:fdsession
 file_len	tlog_decl.h	/^    int64_t             file_len;$/;"	m	struct:_logfile_info
 fini_service	dll.h	/^	int 	(*fini_service)(int isparent);$/;"	m	struct:AsyncServInterface
+fini_service	sample/test.c	/^int fini_service(int isparent)$/;"	f
 flag	net.h	/^    uint8_t     flag;$/;"	m	struct:fdinfo
+free_cb	net.c	/^inline void free_cb(struct conf_buf *p)$/;"	f
 g_listen_ip	net.c	/^char      g_listen_ip[16];$/;"	v
 g_listen_port	net.c	/^int       g_listen_port;$/;"	v
 g_log_dest	log_fun.c	/^static log_dest_t  g_log_dest = log_dest_terminal; \/\/ 将日志输出到屏幕上$/;"	v	file:
@@ -285,11 +308,14 @@ g_progame_name	main.c	/^char g_progame_name[256];$/;"	v
 g_send_buf_limit_size	net.c	/^uint32_t  g_send_buf_limit_size;$/;"	v
 gameid	tlog_decl.h	/^    int                 gameid; $/;"	m	struct:_logger_svc_info
 gen_timestring	tlog.c	/^int gen_timestring(char *buf,int maxlen,logfile_t *log_file,char *datedir)$/;"	f
+get_bind_conf	bindconf.h	/^static inline bind_config_t* get_bind_conf()$/;"	f
+get_ip_addr	inet_utils.c	/^int get_ip_addr(const char* nif, int af, void* ipaddr, size_t len)$/;"	f
 get_log_seq_nonrecycle	log_fun.c	/^static int get_log_seq_nonrecycle(int lvl)$/;"	f	file:
 get_log_seq_recycle	log_fun.c	/^static int get_log_seq_recycle(int lvl)$/;"	f	file:
 get_log_time	log_fun.c	/^static inline int get_log_time()$/;"	f	file:
 get_logfile_seqno	log_fun.c	/^static inline int  get_logfile_seqno(const char* filename, int loglvl)$/;"	f	file:
 get_pkg_len	dll.h	/^	int		(*get_pkg_len)(int fd, const void* avail_data, int avail_len, int isparent);$/;"	m	struct:AsyncServInterface
+get_pkg_len	sample/test.c	/^int	get_pkg_len(int fd, const void* pkg, int pkglen, int isparent)$/;"	f
 get_time_slice_no	tlog.c	/^int get_time_slice_no(logfile_t *logfile,char *datedir,struct tm *tm)$/;"	f
 handle	dll.h	/^	void*   handle; \/\/ Hold the handle returned by dlopen$/;"	m	struct:AsyncServInterface
 has_init	config.c	/^static int has_init;$/;"	v	file:
@@ -300,6 +326,7 @@ head	shmq.h	/^    volatile int head;$/;"	m	struct:shm_head
 hostname	tlog_decl.h	/^    char                hostname[MAX_HOSTNAME_LEN]; \/\/ 实际是ip$/;"	m	struct:_logger_svc_info
 id	net.h	/^    uint32_t    id;$/;"	m	struct:fdinfo
 id	service.h	/^	uint32_t	id;$/;"	m	struct:fdsession
+id	shmq.h	/^	uint32_t	id;$/;"	m	struct:shm_block
 infostr	tlog_decl.h	/^    char                infostr[MAX_INFOSTR_LEN];$/;"	m	struct:_logfile_info
 infostrlen	tlog_decl.h	/^    int                 infostrlen;$/;"	m	struct:_logfile_info
 ini_key_head	config.c	/^static list_head_t ini_key_head[1 << INIKEY_HASHBITS];$/;"	v	file:
@@ -311,9 +338,13 @@ init_logger_ctrl_cfg	tlog.c	/^int init_logger_ctrl_cfg(int lvl, int daily_max_fi
 init_logger_svc_info	tlog.c	/^int init_logger_svc_info(const char* svcname, int gameid, const char* svrtype)$/;"	f
 init_logger_udp_sink_sendfd	netutils.c	/^int init_logger_udp_sink_sendfd(void)$/;"	f
 init_service	dll.h	/^	int 	(*init_service)(int isparent);$/;"	m	struct:AsyncServInterface
+init_service	sample/test.c	/^int init_service(int isparent)$/;"	f
 ip	netutils.h	/^	char				ip[INET_ADDRSTRLEN];$/;"	m	struct:_logger_set_trace_addr
 ip	tlog_decl.h	/^    char                ip[INET_ADDRSTRLEN];$/;"	m	struct:_logger_udp_sink
+is_legal_ip	inet_utils.c	/^int is_legal_ip(const char *str_ip)$/;"	f
+is_legal_port	inet_utils.c	/^int is_legal_port(const int port)$/;"	f
 is_need_shift_file	tlog.c	/^int is_need_shift_file(logfile_t *logfile)$/;"	f
+is_parent	service.c	/^int is_parent = 1;$/;"	v
 k_page_size	tlog.c	/^static int64_t k_page_size;$/;"	v	file:
 key	config.h	/^	char key[];$/;"	m	struct:config_pair
 last_check_diskfull_time	tlog_decl.h	/^	time_t				last_check_diskfull_time;$/;"	m	struct:_logger
@@ -324,8 +355,11 @@ lc_set_trace_addr	netutils.h	/^    lc_set_trace_addr       = 1003,$/;"	e	enum:lo
 lc_set_trace_uid	netutils.h	/^    lc_set_trace_uid        = 1001,$/;"	e	enum:logger_cmd
 lc_unset_trace_uid	netutils.h	/^    lc_unset_trace_uid      = 1002,$/;"	e	enum:logger_cmd
 len	netutils.h	/^    uint32_t            len;$/;"	m	struct:_logger_ctrl_pkg
+length	shmq.h	/^	uint32_t	length;	\/\/ length of the whole shmblock, including data$/;"	m	struct:shm_block
 length	shmq.h	/^    unsigned int length;$/;"	m	struct:shm_queue
 life_time	netutils.h	/^	int32_t				life_time;$/;"	m	struct:_pkg_trace_uid
+likely	util.h	10;"	d
+likely	util.h	8;"	d
 limit	netutils.h	/^	int32_t				limit;$/;"	m	struct:_logger_set_rate_limit
 limit	tlog_decl.h	/^    int32_t             limit;$/;"	m	struct:_rate_limit
 list	config.h	/^	struct list_head list;$/;"	m	struct:config_pair	typeref:struct:config_pair::list_head
@@ -398,18 +432,23 @@ max_one_size	tlog_decl.h	/^    size_t              max_one_size;$/;"	m	struct:_l
 maxfd	net.h	/^    int                 maxfd;$/;"	m	struct:epinfo
 mmap_config_file	config.c	/^int mmap_config_file(const char *file_name,char **buf)$/;"	f
 my_lvl	tlog_decl.h	/^    tlog_lvl_t          my_lvl;$/;"	m	struct:_logfile_info
+net_exit	net.c	/^void net_exit()$/;"	f
 net_init	net.c	/^int net_init(int size, int maxevents)$/;"	f
+net_start	net.c	/^int net_start(const char* listen_ip, in_port_t listen_port, bind_config_elem_t* bc_elem)$/;"	f
 next	list.h	/^	struct list_head *next,*prev;$/;"	m	struct:list_head	typeref:struct:list_head::list_head
 now	timer.c	/^struct timeval now;$/;"	v	typeref:struct:timeval
 now	tlog_decl.h	/^	time_t				now;$/;"	m	struct:_logger
 on_client_conn_closed	dll.h	/^	void	(*on_client_conn_closed)(int fd);$/;"	m	struct:AsyncServInterface
+on_client_conn_closed	sample/test.c	/^void on_client_conn_closed(int fd)$/;"	f
 on_fd_closed	dll.h	/^	void	(*on_fd_closed)(int fd);$/;"	m	struct:AsyncServInterface
+on_fd_closed	sample/test.c	/^void on_fd_closed(int fd)$/;"	f
 online_id	bindconf.h	/^    uint32_t    online_id;$/;"	m	struct:bind_config_elem
 online_name	bindconf.h	/^    char        online_name[16];$/;"	m	struct:bind_config_elem
 opfd	log_fun.c	/^	int		opfd;$/;"	m	struct:fds_t	file:
 page_size	net.c	/^int       page_size;$/;"	v
 parse_args	main.c	/^static inline void parse_args(int argc,char **argv)$/;"	f	file:
 parse_config	config.c	/^static int parse_config(char *buffer)$/;"	f	file:
+pipe_create	util.c	/^int pipe_create(int pipe_handles[2])$/;"	f
 pipe_handles	shmq.h	/^    int pipe_handles[2];$/;"	m	struct:shm_queue
 pkg_trace_uid	netutils.h	/^	pkg_trace_uid_t		pkg_trace_uid[];$/;"	m	struct:_logger_set_trace_uid
 pkg_trace_uid_t	netutils.h	/^} pkg_trace_uid_t;$/;"	t	typeref:struct:_pkg_trace_uid
@@ -419,10 +458,13 @@ port	tlog_decl.h	/^    uint16_t            port;$/;"	m	struct:_logger_udp_sink
 prefix	tlog_decl.h	/^	char				prefix[MAX_PREFIX_LEN];$/;"	m	struct:_logger
 prev	list.h	/^	struct list_head *next,*prev;$/;"	m	struct:list_head	typeref:struct:list_head::
 proc_events	dll.h	/^	void	(*proc_events)();$/;"	m	struct:AsyncServInterface
+proc_events	sample/test.c	/^void proc_events()$/;"	f
 proc_logger_pkg	netutils.c	/^void proc_logger_pkg(int mfd, time_t now, char *recvbuf, ssize_t len, struct sockaddr_in *from, socklen_t fromlen)$/;"	f
 proc_mcast_pkg	dll.h	/^	void	(*proc_mcast_pkg)(const void* data, int len);$/;"	m	struct:AsyncServInterface
 proc_pkg_from_client	dll.h	/^	int		(*proc_pkg_from_client)(void* pkg, int pkglen, const fdsession_t* fdsess);$/;"	m	struct:AsyncServInterface
+proc_pkg_from_client	sample/test.c	/^int proc_pkg_from_client(void* data, int len, fdsession_t* fdsess)$/;"	f
 proc_pkg_from_serv	dll.h	/^	void	(*proc_pkg_from_serv)(int fd, void* pkg, int pkglen);$/;"	m	struct:AsyncServInterface
+proc_pkg_from_serv	sample/test.c	/^void proc_pkg_from_serv(int fd, void* data, int len)$/;"	f
 proc_udp_pkg	dll.h	/^	int		(*proc_udp_pkg)(int fd, const void* avail_data, int avail_len ,struct sockaddr_in * from, socklen_t fromlen );$/;"	m	struct:AsyncServInterface
 procname	tlog_decl.h	/^    char                procname[MAX_PROCNAME_LEN]; \/\/ 进程名$/;"	m	struct:_logger_svc_info
 prog_name	main.c	/^char *prog_name;$/;"	v
@@ -445,6 +487,13 @@ request_log_seq	log_fun.c	/^static inline int request_log_seq(int lvl)$/;"	f	fil
 restart	daemon.c	/^volatile int restart     = 0;$/;"	v
 restart_cnt	bindconf.h	/^    uint8_t     restart_cnt;$/;"	m	struct:bind_config_elem
 rlimit_reset	daemon.c	/^static inline void rlimit_reset()$/;"	f	file:
+run_worker_process	service.c	/^void run_worker_process(bind_config_t* bc, int bc_elem_idx, int n_inited_bc)$/;"	f
+safe_socket_listen	tcp.c	/^int safe_socket_listen(const char* ipaddr, in_port_t port, int type, int backlog, int bufsize)$/;"	f
+safe_tcp_accept	tcp.c	/^int safe_tcp_accept(int sockfd, struct sockaddr_in* peer, int nonblock)$/;"	f
+safe_tcp_connect	tcp.c	/^int safe_tcp_connect(const char* ipaddr, in_port_t port, int timeout, int nonblock)$/;"	f
+safe_tcp_recv	tcp.c	/^int safe_tcp_recv(int sockfd, void* buf, int bufsize)$/;"	f
+safe_tcp_recv_n	tcp.c	/^int safe_tcp_recv_n(int sockfd, void* buf, int total)$/;"	f
+safe_tcp_send_n	tcp.c	/^int safe_tcp_send_n(int sockfd, const void* buf, int total)$/;"	f
 saved_argv	daemon.c	/^char** saved_argv = NULL;$/;"	v
 self_thread_pid	tlog.c	/^static int32_t self_thread_pid;$/;"	v	file:
 sendbuf	tlog_decl.h	/^    char                sendbuf[8192];$/;"	m	struct:_logger_udp_sink
@@ -455,12 +504,19 @@ sendptr	net.h	/^    uint8_t*   sendptr;$/;"	m	struct:conf_buf
 sendq	bindconf.h	/^    shm_queue_t sendq;$/;"	m	struct:bind_config_elem
 seq	log_fun.c	/^	int		seq;$/;"	m	struct:fds_t	file:
 seq	netutils.h	/^    uint32_t            seq;$/;"	m	struct:_logger_ctrl_pkg
+set_io_blockability	tcp.c	/^int set_io_blockability(int fd, int nonblock)$/;"	f
+set_sock_rcv_timeo	tcp.c	/^int set_sock_rcv_timeo(int sockfd, int millisec)$/;"	f
+set_sock_snd_timeo	tcp.c	/^int set_sock_snd_timeo(int sockfd, int millisec)$/;"	f
 severity_str	tlog.c	/^static char *severity_str[tlog_lvl_max] = $/;"	v	file:
 shift_logger_file	tlog.c	/^int shift_logger_file(logfile_t *logfile)$/;"	f
+shm_block	shmq.h	/^typedef struct shm_block $/;"	s
+shm_block_t	shmq.h	/^} __attribute__ ((packed)) shm_block_t;$/;"	t	typeref:struct:shm_block
 shm_head	shmq.h	/^typedef struct shm_head$/;"	s
 shm_head_t	shmq.h	/^} __attribute__ ((packed)) shm_head_t;$/;"	t	typeref:struct:shm_head
 shm_queue	shmq.h	/^typedef struct shm_queue$/;"	s
 shm_queue_t	shmq.h	/^} shm_queue_t;$/;"	t	typeref:struct:shm_queue
+shmq_create	shmq.c	/^int shmq_create(bind_config_elem_t *p)$/;"	f
+shmq_destory	shmq.c	/^void shmq_destory(const struct bind_config_elem* exclu_bc_elem, int max_shmq_num)$/;"	f
 show_banner	main.c	/^static inline void show_banner()$/;"	f	file:
 show_usage	main.c	/^static inline void show_usage()$/;"	f	file:
 sigchld_handler	daemon.c	/^static void sigchld_handler(int signo, siginfo_t *si, void *p)$/;"	f	file:
@@ -484,6 +540,7 @@ svrtype	tlog_decl.h	/^    char                svrtype[MAX_SVRTYPE_LEN];$/;"	m	st
 sync_service_info	dll.h	/^    void	(*sync_service_info)(uint32_t svr_id, const char* svr_name, const char* svr_ip, in_port_t port, int flag);$/;"	m	struct:AsyncServInterface
 tail	shmq.h	/^    volatile int tail;$/;"	m	struct:shm_head
 term_signal	daemon.c	/^volatile int term_signal = 0;$/;"	v
+test	sample/test.c	/^int test(void* owner, void* data)$/;"	f
 thread	tlog_decl.h	/^	pthread_t			thread;$/;"	m	struct:_logger
 time_slice_no	tlog_decl.h	/^    int32_t             time_slice_no;$/;"	m	struct:_logfile_info
 time_slice_secs	tlog_decl.h	/^    int32_t             time_slice_secs;$/;"	m	struct:_logger_ctrl_cfg
@@ -520,12 +577,15 @@ token	tlog_decl.h	/^    int32_t             token;$/;"	m	struct:_rate_limit
 trace_uid_list	tlog_decl.h	/^    trace_uid_t         trace_uid_list[MAX_TRACE_UID_NUM];$/;"	m	struct:_logger_udp_sink
 trace_uid_t	tlog_decl.h	/^}trace_uid_t;$/;"	t	typeref:struct:_trace_uid
 type	net.h	/^    uint8_t     type;$/;"	m	struct:fdinfo
+type	shmq.h	/^	char		type;$/;"	m	struct:shm_block
 udp_sink	tlog.c	/^logger_udp_sink_t udp_sink_struct       , *udp_sink = &udp_sink_struct;$/;"	v
 udp_sink_server	netutils.c	/^void *udp_sink_server(void *args)$/;"	f
 udp_sink_struct	tlog.c	/^logger_udp_sink_t udp_sink_struct       , *udp_sink = &udp_sink_struct;$/;"	v
 uid	netutils.h	/^	uint32_t			uid;$/;"	m	struct:_pkg_trace_uid
 uid	netutils.h	/^    uint32_t            uid;$/;"	m	struct:_logger_ctrl_pkg
 uid	tlog_decl.h	/^    uint32_t            uid;$/;"	m	struct:_trace_uid
+unlikely	util.h	13;"	d
+unlikely	util.h	15;"	d
 update_udp_sink_sockaddr	netutils.c	/^int update_udp_sink_sockaddr(void)$/;"	f
 use_net_ctrl	tlog_decl.h	/^	uint8_t				use_net_ctrl;$/;"	m	struct:_logger
 userid_t	types.h	/^    typedef uint32_t userid_t;$/;"	t

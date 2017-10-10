@@ -13,6 +13,9 @@
 #define _SERVICE_H_
 
 #include <stdint.h>
+#include "bindconf.h"
+
+extern int is_parent;
 
 typedef struct fdsession 
 {
@@ -21,5 +24,7 @@ typedef struct fdsession
 	uint16_t	remote_port;
 	uint32_t	remote_ip;
 } fdsession_t;
+
+void run_worker_process(bind_config_t* bc, int bc_elem_idx, int n_inited_bc);
 
 #endif // _SERVICE_H_

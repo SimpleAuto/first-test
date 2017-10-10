@@ -36,8 +36,10 @@ typedef struct shm_block
 struct bind_config_elem;
 struct bind_config;
 
-int shmq_create(struct bind_config_elem *p);
+int  shmq_create(struct bind_config_elem *p);
 void close_shmq_pipe(struct bind_config* bc, int idx, int is_child);
+void shmq_destory(const struct bind_config_elem* exclu_bc_elem, int max_shmq_num);
+void do_destory_shmq(struct bind_config_elem* bc_elem);
 
 #ifdef __cplusplus
 }
