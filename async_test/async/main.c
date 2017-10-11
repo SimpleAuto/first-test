@@ -13,6 +13,7 @@
 #include "net.h"
 #include "dll.h"
 #include "shmq.h"
+#include "service.h"
 
 char g_progame_name[256];
 char *prog_name;

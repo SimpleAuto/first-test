@@ -36,3 +36,6 @@ test.so 其实就是在bench.conf中动态加载的so文件，就是之后如果
 
 2017/10/10
 20:42 目前到了 run_worker_process()函数中实现daemon_set_title()函数
+
+2017/10/11
+18:09 目前到了 run_worker_process()函数中实现完了handle_init()函数

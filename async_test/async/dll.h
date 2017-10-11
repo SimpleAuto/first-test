@@ -102,6 +102,67 @@ typedef struct AsyncServInterface
 
 extern async_serv_if_t dll;
 
+/**
+  * @brief get id of the server
+  * @return id that is specified at the first column of 'bind.conf'
+  */
+static inline uint32_t get_server_id()
+{
+	return config_cache.bc_elem->online_id;
+}
+
+/**
+  * @brief get name of the server
+  * @return name that is specified at the second column of 'bind.conf'
+  */
+static inline const char* get_server_name()
+{
+	return config_cache.bc_elem->online_name;
+}
+
+/**
+  * @brief get binding ip of the server
+  * @return binding ip of the server
+  */
+static inline const char* get_server_ip()
+{
+	return config_cache.bc_elem->bind_ip;
+}
+
+/**
+  * @brief get binding port of the server
+  * @return binding port of the server
+  */
+static inline in_port_t get_server_port()
+{
+	return config_cache.bc_elem->bind_port;
+}
+
+/**
+  * @brief get ip address of a client connection
+  * @param fdsess
+  * @return ip address of a client
+  */
+static inline uint32_t get_cli_ip(const fdsession_t* fdsess)
+{
+	return fdsess->remote_ip;
+}
+
+/**
+  * @brief get port of a client connection
+  * @param fdsess
+  * @return port of a client
+  */
+static inline uint32_t get_cli_port(const fdsession_t* fdsess)
+{
+	return fdsess->remote_port;
+}
+
+static inline uint32_t get_cli_ip2(int fd)
+{
+	fdsession_t* fdsess = (fdsession_t*)g_hash_table_lookup(fds.cn, &fd);
+	return (fdsess ? fdsess->remote_ip : 0);
+}
 int register_data_plugin(const char* file_name);
 int register_plugin(const char* file_name, int flag);
 

@@ -41,11 +41,17 @@ static inline int handle_init(bind_config_elem_t* bc_elem)
     fds.cn                    = g_hash_table_new_full(g_int_hash, g_int_equal, 0, free_fdsess);
 
     if(dll.proc_mcast_pkg && (asynsvr_create_mcast_socket() == -1))
-    {
         return -1;
+
+    if(config_get_strval("addr_mcast_ip"))
+    {
+        if(create_addr_mcast_socket() == 0)
+            send_addr_mcast_pkg(addr_mcast_1st_pkg);
+        else
+            return -1;
     }
 
-    return 0;
+    return (dll.init_service ? dll.init_service(0) :0);
 }
 
 void run_worker_process(bind_config_t* bc, int bc_elem_idx, int n_inited_bc)
