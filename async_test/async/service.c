@@ -9,7 +9,8 @@
  * 
  ************************************************************************
 */
-#include<stdio.h>
+#include <stdio.h>
+#include <glib.h>
 
 #include "bindconf.h"
 #include "config.h"
@@ -20,9 +21,32 @@
 #include "shmq.h"
 #include "net.h"
 #include "daemon.h"
+#include "dll.h"
+#include "mcast.h"
 #include "service.h"
 
-int is_parent = 1;
+int                is_parent = 1;
+config_cache_t     config_cache;
+fd_array_session_t fds;
+
+static inline void free_fdsess(void *fdsess)
+{
+    g_slice_free1(sizeof(fdsession_t), fdsess);
+}
+
+static inline int handle_init(bind_config_elem_t* bc_elem)
+{
+    config_cache.idle_timeout = config_get_intval("idle_timeout", 10);
+    config_cache.bc_elem      = bc_elem;
+    fds.cn                    = g_hash_table_new_full(g_int_hash, g_int_equal, 0, free_fdsess);
+
+    if(dll.proc_mcast_pkg && (asynsvr_create_mcast_socket() == -1))
+    {
+        return -1;
+    }
+
+    return 0;
+}
 
 void run_worker_process(bind_config_t* bc, int bc_elem_idx, int n_inited_bc)
 {
@@ -65,4 +89,12 @@ void run_worker_process(bind_config_t* bc, int bc_elem_idx, int n_inited_bc)
     net_exit();
 
     daemon_set_title("%s-%u", prog_name, bc_elem->online_id);
+
+    net_init(max_fd_num, 2000);
+    do_add_conn(bc_elem->recvq.pipe_handles[0], fd_type_pipe, 0 ,0);
+
+    if( handle_init(bc_elem) != 0 )
+    {
+
+    }
 }

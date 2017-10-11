@@ -182,6 +182,7 @@ arg	net.h	/^    void*       arg;$/;"	m	struct:fdinfo
 arg_end	daemon.c	/^static char*    arg_end;$/;"	v	file:
 arg_start	daemon.c	/^static char*    arg_start;$/;"	v	file:
 async_serv_if_t	dll.h	/^} async_serv_if_t;$/;"	t	typeref:struct:AsyncServInterface
+asynsvr_create_mcast_socket	mcast.c	/^int asynsvr_create_mcast_socket()$/;"	f
 atomic_add	atomic.h	/^atomic_add (int i, atomic_t * v)$/;"	f
 atomic_add_negative	atomic.h	/^atomic_add_negative (int i, atomic_t * v)$/;"	f
 atomic_add_return	atomic.h	/^atomic_add_return (int i, atomic_t * v)$/;"	f
@@ -198,13 +199,14 @@ atomic_set_mask	atomic.h	212;"	d
 atomic_sub	atomic.h	/^atomic_sub (int i, atomic_t * v)$/;"	f
 atomic_sub_and_test	atomic.h	/^atomic_sub_and_test (int i, atomic_t * v)$/;"	f
 atomic_sub_return	atomic.h	/^atomic_sub_return (int i, atomic_t * v)$/;"	f
-atomic_t	atomic.h	/^} atomic_t;$/;"	t	typeref:struct:__anon7
+atomic_t	atomic.h	/^} atomic_t;$/;"	t	typeref:struct:__anon8
 backgd_mode	daemon.c	/^static int      backgd_mode = 0;$/;"	v	file:
 base_filename	log_fun.c	/^	char	base_filename[64];$/;"	m	struct:fds_t	file:
 base_filename_len	log_fun.c	/^	int		base_filename_len;$/;"	m	struct:fds_t	file:
 baselen	tlog_decl.h	/^    int                 baselen;$/;"	m	struct:_logfile_info
 basename	tlog_decl.h	/^    char                basename[MAX_BASENAME_LEN];$/;"	m	struct:_logfile_info
 bc_elem	net.h	/^    struct bind_config_elem* bc_elem;$/;"	m	struct:fdinfo	typeref:struct:fdinfo::bind_config_elem
+bc_elem	service.h	/^    bind_config_elem_t* bc_elem;$/;"	m	struct:__anon7
 before_reload	dll.h	/^	int		(*before_reload)(int isparent);$/;"	m	struct:AsyncServInterface
 bind_conf_max_field_num	bindconf.c	/^    bind_conf_max_field_num = 4 $/;"	e	enum:__anon1	file:
 bind_config	bindconf.h	/^typedef struct bind_config $/;"	s
@@ -226,9 +228,12 @@ clean_child_pids	daemon.c	/^void clean_child_pids()$/;"	f
 close_head	net.h	/^    list_head_t         close_head;$/;"	m	struct:epinfo
 close_shmq_pipe	shmq.c	/^void close_shmq_pipe(bind_config_t* bc, int idx, int is_child)$/;"	f
 cmd	netutils.h	/^    uint32_t            cmd;$/;"	m	struct:_logger_ctrl_pkg
+cn	service.h	/^    GHashTable *cn;$/;"	m	struct:fd_array_session
 conf_buf	net.h	/^typedef struct conf_buf$/;"	s
 conf_buf_t	net.h	/^}conf_buf_t;$/;"	t	typeref:struct:conf_buf
 config_append_value	config.c	/^int config_append_value(const char* key,const char *val)$/;"	f
+config_cache	service.c	/^config_cache_t     config_cache;$/;"	v
+config_cache_t	service.h	/^}config_cache_t;$/;"	t	typeref:struct:__anon7
 config_get_intval	config.c	/^int config_get_intval(const char*key,int def)$/;"	f
 config_get_strval	config.c	/^char* config_get_strval(const char* key)$/;"	f
 config_init	config.c	/^int config_init(const char* file_name)$/;"	f
@@ -241,12 +246,14 @@ config_update_value	config.c	/^int config_update_value(const char* key,const cha
 configs	bindconf.h	/^    bind_config_elem_t  configs[max_listen_fds];$/;"	m	struct:bind_config
 count	net.h	/^    int                 count;$/;"	m	struct:epinfo
 count	netutils.h	/^	uint32_t			count;$/;"	m	struct:_logger_set_trace_uid
-counter	atomic.h	/^  volatile int counter;$/;"	m	struct:__anon7
+count	service.h	/^    int         count;$/;"	m	struct:fd_array_session
+counter	atomic.h	/^  volatile int counter;$/;"	m	struct:__anon8
 create_new_logfile	tlog.c	/^int create_new_logfile(logfile_t *logfile)$/;"	f
 create_passive_endpoint	tcp.c	/^int create_passive_endpoint(const char* host, const char* serv, int socktype, int backlog, int bufsize)$/;"	f
 ctrl_cfg	tlog.c	/^logger_ctrl_cfg_t logger_ctrl_cfg_struct, *ctrl_cfg = &logger_ctrl_cfg_struct;$/;"	v
 cur_day_seq_count	log_fun.c	/^	int  	cur_day_seq_count;\/\/当天轮转文件的个数$/;"	m	struct:fds_t	file:
 current_dir	main.c	/^char *current_dir;$/;"	v
+daemon_set_title	daemon.c	/^void daemon_set_title(const char *fmt,...)$/;"	f
 daemon_start	daemon.c	/^int daemon_start(int argc, char** argv)$/;"	f
 daily_max_files	tlog_decl.h	/^    int32_t             daily_max_files;$/;"	m	struct:_logger_ctrl_cfg
 daily_seq	tlog_decl.h	/^    int32_t             daily_seq;$/;"	m	struct:_logfile_info
@@ -280,6 +287,8 @@ expire_time	tlog_decl.h	/^    int32_t             expire_time;$/;"	m	struct:_tra
 fd	service.h	/^	int			fd;$/;"	m	struct:fdsession
 fd	shmq.h	/^	uint32_t	fd;$/;"	m	struct:shm_block
 fd	tlog_decl.h	/^    int                 fd;$/;"	m	struct:_logfile_info
+fd_array_session	service.h	/^typedef struct fd_array_session$/;"	s
+fd_array_session_t	service.h	/^}fd_array_session_t;$/;"	t	typeref:struct:fd_array_session
 fd_type_addr_mcast	net.h	/^	fd_type_addr_mcast,$/;"	e	enum:__anon5
 fd_type_asyn_connect	net.h	/^	fd_type_asyn_connect$/;"	e	enum:__anon5
 fd_type_listen	net.h	/^	fd_type_listen,$/;"	e	enum:__anon5
@@ -291,6 +300,7 @@ fd_type_unused	net.h	/^	fd_type_unused = 0,$/;"	e	enum:__anon5
 fdinfo	net.h	/^typedef struct fdinfo{$/;"	s
 fdinfo_t	net.h	/^}fdinfo_t;$/;"	t	typeref:struct:fdinfo
 fds	net.h	/^    fdinfo_t*           fds;$/;"	m	struct:epinfo
+fds	service.c	/^fd_array_session_t fds;$/;"	v
 fds_info	log_fun.c	/^} fds_info[log_lvl_max];$/;"	v	typeref:struct:fds_t	file:
 fds_t	log_fun.c	/^static struct fds_t $/;"	s	file:
 fdsession	service.h	/^typedef struct fdsession $/;"	s
@@ -299,7 +309,8 @@ file_len	tlog_decl.h	/^    int64_t             file_len;$/;"	m	struct:_logfile_i
 fini_service	dll.h	/^	int 	(*fini_service)(int isparent);$/;"	m	struct:AsyncServInterface
 fini_service	sample/test.c	/^int fini_service(int isparent)$/;"	f
 flag	net.h	/^    uint8_t     flag;$/;"	m	struct:fdinfo
-free_cb	net.c	/^inline void free_cb(struct conf_buf *p)$/;"	f
+free_cb	net.c	/^static inline void free_cb(struct conf_buf *p)$/;"	f	file:
+free_fdsess	service.c	/^static inline void free_fdsess(void *fdsess)$/;"	f	file:
 g_listen_ip	net.c	/^char      g_listen_ip[16];$/;"	v
 g_listen_port	net.c	/^int       g_listen_port;$/;"	v
 g_log_dest	log_fun.c	/^static log_dest_t  g_log_dest = log_dest_terminal; \/\/ 将日志输出到屏幕上$/;"	v	file:
@@ -318,6 +329,7 @@ get_pkg_len	dll.h	/^	int		(*get_pkg_len)(int fd, const void* avail_data, int ava
 get_pkg_len	sample/test.c	/^int	get_pkg_len(int fd, const void* pkg, int pkglen, int isparent)$/;"	f
 get_time_slice_no	tlog.c	/^int get_time_slice_no(logfile_t *logfile,char *datedir,struct tm *tm)$/;"	f
 handle	dll.h	/^	void*   handle; \/\/ Hold the handle returned by dlopen$/;"	m	struct:AsyncServInterface
+handle_init	service.c	/^static inline int handle_init(bind_config_elem_t* bc_elem)$/;"	f	file:
 has_init	config.c	/^static int has_init;$/;"	v	file:
 has_init	log_fun.c	/^static int         has_init;$/;"	v	file:
 hash_key	config.c	/^static inline int hash_key(const char* key)$/;"	f	file:
@@ -327,6 +339,7 @@ hostname	tlog_decl.h	/^    char                hostname[MAX_HOSTNAME_LEN]; \/\/ 
 id	net.h	/^    uint32_t    id;$/;"	m	struct:fdinfo
 id	service.h	/^	uint32_t	id;$/;"	m	struct:fdsession
 id	shmq.h	/^	uint32_t	id;$/;"	m	struct:shm_block
+idle_timeout	service.h	/^    int                 idle_timeout;$/;"	m	struct:__anon7
 infostr	tlog_decl.h	/^    char                infostr[MAX_INFOSTR_LEN];$/;"	m	struct:_logfile_info
 infostrlen	tlog_decl.h	/^    int                 infostrlen;$/;"	m	struct:_logfile_info
 ini_key_head	config.c	/^static list_head_t ini_key_head[1 << INIKEY_HASHBITS];$/;"	v	file:
@@ -344,7 +357,7 @@ ip	tlog_decl.h	/^    char                ip[INET_ADDRSTRLEN];$/;"	m	struct:_logg
 is_legal_ip	inet_utils.c	/^int is_legal_ip(const char *str_ip)$/;"	f
 is_legal_port	inet_utils.c	/^int is_legal_port(const int port)$/;"	f
 is_need_shift_file	tlog.c	/^int is_need_shift_file(logfile_t *logfile)$/;"	f
-is_parent	service.c	/^int is_parent = 1;$/;"	v
+is_parent	service.c	/^int                is_parent = 1;$/;"	v
 k_page_size	tlog.c	/^static int64_t k_page_size;$/;"	v	file:
 key	config.h	/^	char key[];$/;"	m	struct:config_pair
 last_check_diskfull_time	tlog_decl.h	/^	time_t				last_check_diskfull_time;$/;"	m	struct:_logger
@@ -370,7 +383,7 @@ list_for_each_entry	list.h	35;"	d
 list_head	list.h	/^struct list_head$/;"	s
 list_head_t	list.h	/^typedef struct list_head list_head_t;$/;"	t	typeref:struct:list_head
 load_bind_file	bindconf.c	/^int load_bind_file(const char* file_name)$/;"	f
-log_buf_sz	log_fun.c	/^	log_buf_sz	= 8192$/;"	e	enum:__anon8	file:
+log_buf_sz	log_fun.c	/^	log_buf_sz	= 8192$/;"	e	enum:__anon9	file:
 log_dest	log_fun.h	/^typedef enum log_dest $/;"	g
 log_dest_both	log_fun.h	/^	log_dest_both		= 3$/;"	e	enum:log_dest
 log_dest_file	log_fun.h	/^	log_dest_file		= 2,$/;"	e	enum:log_dest
@@ -430,6 +443,9 @@ max_listen_fds	bindconf.h	/^    max_listen_fds  = 500 $/;"	e	enum:__anon6
 max_log_files	log_fun.c	/^static int         max_log_files;                  \/\/ 日志最大的文件数$/;"	v	file:
 max_one_size	tlog_decl.h	/^    size_t              max_one_size;$/;"	m	struct:_logger_ctrl_cfg
 maxfd	net.h	/^    int                 maxfd;$/;"	m	struct:epinfo
+mcast_addr	mcast.c	/^static struct    sockaddr_storage mcast_addr;$/;"	v	typeref:struct:sockaddr_storage	file:
+mcast_fd	mcast.c	/^static int       mcast_fd = -1;$/;"	v	file:
+mcast_len	mcast.c	/^static socklen_t mcast_len;$/;"	v	file:
 mmap_config_file	config.c	/^int mmap_config_file(const char *file_name,char **buf)$/;"	f
 my_lvl	tlog_decl.h	/^    tlog_lvl_t          my_lvl;$/;"	m	struct:_logfile_info
 net_exit	net.c	/^void net_exit()$/;"	f

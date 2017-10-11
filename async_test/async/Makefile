@@ -12,9 +12,10 @@ HEADERS = $(wildcard $(INCLUDEDIR)/*.h)
 OBJS   := $(patsubst %.c,%.o,$(subst $(SRCDIR),$(OBJDIR),$(SRCS)))
 DEPS   := $(patsubst %.c,%.d,$(subst $(SRCDIR),$(DEPDIR),$(SRCS)))
 
-CFLAGS = -Wall -Werror -DDEBUG -D_GNU_SOURCE -DEPOLL_MODE -DUSE_TLOG 
+CFLAGS  = -Wall -Werror -DDEBUG -D_GNU_SOURCE -DEPOLL_MODE -DUSE_TLOG \
+		  -Iinclude -I/usr/include/glib-2.0/
 #CFLAGS = -Wall -DDEBUG -D_GNU_SOURCE -DEPOLL_MODE 
-LIBS   = -lpthread -ldl
+LIBS    = -lpthread -ldl -lglib-2.0
 
 all: $(TARGET) clean
 
