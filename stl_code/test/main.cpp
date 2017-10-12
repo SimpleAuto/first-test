@@ -63,7 +63,21 @@ int main()
             cout << "bucket[" << i << "] has " << num << " elems" << endl;
     }
 
-    
+    // count(index) 函数返回对应的位置存放的元素的个数
+    cout << "count() result: " << iht.count(63) << endl;
+    // find(key)    函数返回指向存放位置index的迭代器,需要解一次
+    // cout << iht.find(63)    << endl;
+    //hash_it = iht.find(63);
+    hash_it = iht.find(13);
+    if(hash_it != iht.end())
+    {
+        cout << "find elem: " << *hash_it << endl;
+    }
+    else
+    {
+        cout << "not find elem" << endl;
+    }
+
     return 0;
 }
 #endif
