@@ -17,11 +17,13 @@
 using namespace std;
 
 #if _HASHTABLE
+
 #include <hashtable.h>
 #include <hash_fun.h>
 #include <bits/stl_function.h>
 #include <ext/functional>
 using namespace __gnu_cxx;
+
 int main()
 {
     // 28个质数
@@ -60,6 +62,8 @@ int main()
         if(num != 0)
             cout << "bucket[" << i << "] has " << num << " elems" << endl;
     }
+
+    
     return 0;
 }
 #endif
